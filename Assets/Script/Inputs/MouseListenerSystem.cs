@@ -1,45 +1,18 @@
-using Taxa.Entities;
 using Taxa.Entities.Player;
+using TMPro;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Physics;
 using Unity.Physics.Authoring;
 using Unity.Transforms;
-using UnityEngine;
-using RaycastHit = Unity.Physics.RaycastHit;
 
-namespace Entities.Inputs
+namespace Taxa.Entities.Inputs
 {
-    public struct MouseRaySingleton : IComponentData
-    {
-        public UnityEngine.Ray Ray;
-
-        public bool LeftMouseClick;
-    }
-
+    [UpdateAfter(typeof(MouseInputSystem))]
     [BurstCompile]
-    public partial class MouseListeningSystem : SystemBase
-    {
-        [BurstCompile]
-        protected override void OnUpdate()
-        {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            var rayRW = SystemAPI.GetSingletonRW<MouseRaySingleton>();
-
-            rayRW.ValueRW.Ray = ray;
-
-            rayRW.ValueRW.LeftMouseClick = Input.GetMouseButtonDown(0);
-        }
-    }
-
-    //[UpdateInGroup()]
-    [UpdateAfter(typeof(MouseListeningSystem))]
-    [BurstCompile]
-    public partial struct HandlingMouseInput : ISystem
+    public partial struct MouseListenerSystem : ISystem
     {
         private CollisionFilter _collisionFilter;
-        private Entity _player;
 
         [BurstCompile]
         public void OnCreate(ref SystemState state)
@@ -56,9 +29,6 @@ namespace Entities.Inputs
                 BelongsTo = belongsTo.Value,
                 CollidesWith = collidesWith.Value
             };
-
-            EntityQuery entityQuery = state.EntityManager.CreateEntityQuery(typeof(MovementSpeed));
-            _player = entityQuery.ToEntityArray(Unity.Collections.Allocator.Temp)[0];
         }
 
         [BurstCompile]
@@ -88,14 +58,15 @@ namespace Entities.Inputs
             targetPosition.y = 0;
 
 
-            foreach (var transformAspect in SystemAPI.Query<TransformAspect>().WithAll<PlayerTag>())
+            foreach ((var transformAspect, Entity e) in SystemAPI.Query<TransformAspect>().WithAll<PlayerTag>().WithEntityAccess())
             {
-                transformAspect.LookAt(targetPosition);
-            }
+                if (singleton.LeftMouseClick)
+                {
+                    state.EntityManager.SetComponentEnabled<TargetPosition>(e, true);
+                    state.EntityManager.SetComponentData(e, new TargetPosition { Value = targetPosition });
+                }
 
-            if (singleton.LeftMouseClick)
-            {
-                state.EntityManager.SetComponentEnabled<TargetPosition>(_player, true);
+                transformAspect.LookAt(targetPosition);
             }
         }
     }

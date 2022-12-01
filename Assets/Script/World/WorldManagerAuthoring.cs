@@ -1,4 +1,4 @@
-﻿using Entities.Inputs;
+﻿using Taxa.Entities.Inputs;
 using Unity.Entities;
 using UnityEngine;
 

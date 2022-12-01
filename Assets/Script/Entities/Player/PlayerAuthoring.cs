@@ -15,6 +15,7 @@ namespace Taxa.Entities.Player
             {
                 AddComponent<PlayerTag>();
                 AddComponent(new MovementSpeed { Value = authoring.MovementSpeed });
+                AddComponent<TargetPosition>();
             }
         }
     }

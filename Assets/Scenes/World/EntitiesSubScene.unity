@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 286431651}
   - component: {fileID: 286431650}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Grass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -235,7 +235,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 324011652}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.6, y: 0, z: 0}
+  m_LocalPosition: {x: -2.9, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d18ff78f66f9bdf458e8356f1fb051df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 700
+  MovementSpeed: 60
 --- !u!114 &324011658
 MonoBehaviour:
   m_ObjectHideFlags: 0

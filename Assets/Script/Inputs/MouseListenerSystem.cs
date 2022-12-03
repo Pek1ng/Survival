@@ -62,8 +62,7 @@ namespace Taxa.Entities.Inputs
             {
                 if (singleton.LeftMouseClick)
                 {
-                    state.EntityManager.SetComponentEnabled<TargetPosition>(e, true);
-                    state.EntityManager.SetComponentData(e, new TargetPosition { Value = targetPosition });
+                    state.EntityManager.SetComponentData(e, new TargetPosition { Value = targetPosition, Enable = true });
                 }
 
                 transformAspect.LookAt(targetPosition);

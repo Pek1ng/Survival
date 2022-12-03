@@ -10,12 +10,12 @@ namespace Taxa.Entities.Player
     {
         protected override void OnUpdate()
         {
-            var h = Input.GetAxis("Horizontal");
-            var v = Input.GetAxis("Vertical");
+            var h = Input.GetAxisRaw("Horizontal");
+            var v = Input.GetAxisRaw("Vertical");
 
             //椭圆映射，解决斜角速度块的问题
-            h = h * math.sqrt(1 - v * v / 2f);
-            v = v * math.sqrt(1 - h * h / 2f);
+            var h2 = h * math.sqrt(1 - v * v / 2f);
+            var v2 = v * math.sqrt(1 - h * h / 2f);
 
             var deltaTime = SystemAPI.Time.DeltaTime;
 
@@ -23,14 +23,19 @@ namespace Taxa.Entities.Player
             targetPosition.y = 0;
 
             float3 cameraPosition = Vector3.zero;
-            var moveData = new float2(h, v);
+            var moveData = new float2(h2, v2);
 
             Entities.WithAll<PlayerTag>()
-                    .ForEach((ref TransformAspect transform, ref PhysicsVelocity physiceVelocity, in MovementSpeed speed) =>
+                    .ForEach((ref TransformAspect transform, ref PhysicsVelocity physiceVelocity, ref TargetPosition targetPosition, in MovementSpeed speed) =>
                     {
-                        cameraPosition = transform.Position + new float3(0, 6f, -8f); //计算相机位置
+                        if (h2 != 0f || v2 != 0f)
+                        {
+                            targetPosition.Enable = false; //当有操作时就不让自动移动
+                        }
 
-                        physiceVelocity.Linear.xz = moveData * deltaTime * speed.Value; //人物移动
+                        cameraPosition = transform.LocalPosition + new float3(0, 6f, -8f); //计算相机位置
+
+                        physiceVelocity.Linear.xz += moveData * deltaTime * speed.Value; //人物移动
                         physiceVelocity.Angular = float3.zero;
                     }).Run();
 

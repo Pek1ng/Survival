@@ -4,16 +4,8 @@ using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Transforms;
 
-namespace Taxa.Entities
+namespace Survival.Entities
 {
-    [BurstCompile]
-    public struct TargetPosition : IComponentData
-    {
-        public bool Enable;
-
-        public float3 Value;
-    }
-
     [BurstCompile]
     public partial struct TargetPositionSystem : ISystem
     {
@@ -54,16 +46,12 @@ namespace Taxa.Entities
         [BurstCompile]
         public void Move(float deltaTime)
         {
-            if (_targetPositionRW.ValueRW.Enable == false)
-            {
-                return;
-            }
 
             var distance = math.distance(_targetPositionRW.ValueRO.Value.xz, _transformAspect.WorldPosition.xz);
 
             if (distance < 0.1f)
             {
-                _targetPositionRW.ValueRW.Enable = false;
+
             }
             else
             {

@@ -1,8 +1,7 @@
-﻿using Taxa.Entities.Inputs;
-using Unity.Entities;
+﻿using Unity.Entities;
 using UnityEngine;
 
-namespace Taxa.World
+namespace Survival.Worlds
 {
     public class WorldManagerAuthoring : MonoBehaviour
     {
@@ -10,7 +9,7 @@ namespace Taxa.World
         {
             public override void Bake(WorldManagerAuthoring authoring)
             {
-                AddComponent<MouseRaySingleton>();
+
             }
         }
     }

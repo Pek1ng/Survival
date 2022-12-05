@@ -7,12 +7,12 @@ using Unity.Transforms;
 namespace Survival.Entities
 {
     [BurstCompile]
-    public partial struct TargetPositionSystem : ISystem
+    public partial struct TargetSystem : ISystem
     {
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
-
+            
         }
 
         [BurstCompile]
@@ -38,7 +38,7 @@ namespace Survival.Entities
     [BurstCompile]
     public readonly partial struct TargetPositionAspect : IAspect
     {
-        private readonly RefRW<TargetPosition> _targetPositionRW;
+        private readonly RefRW<Target> _targetPositionRW;
         private readonly TransformAspect _transformAspect;
         private readonly RefRO<MovementSpeed> _movementSpeedRO;
         private readonly RefRW<PhysicsVelocity> _physicsVelocityRW;
@@ -47,7 +47,7 @@ namespace Survival.Entities
         public void Move(float deltaTime)
         {
 
-            var distance = math.distance(_targetPositionRW.ValueRO.Value.xz, _transformAspect.WorldPosition.xz);
+            var distance = math.distance(_targetPositionRW.ValueRO.Position.xz, _transformAspect.WorldPosition.xz);
 
             if (distance < 0.1f)
             {
@@ -55,7 +55,7 @@ namespace Survival.Entities
             }
             else
             {
-                var direction = math.normalize(_targetPositionRW.ValueRO.Value.xz - _transformAspect.LocalPosition.xz);
+                var direction = math.normalize(_targetPositionRW.ValueRO.Position.xz - _transformAspect.LocalPosition.xz);
                 _physicsVelocityRW.ValueRW.Linear.xz += direction * deltaTime * _movementSpeedRO.ValueRO.Value;
             }
         }

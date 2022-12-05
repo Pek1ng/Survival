@@ -45,19 +45,13 @@ namespace Survival.Controls
         [BurstCompile]
         public void Execute(ref TransformAspect transformAspect, ref PhysicsMass physicsMass, ref PhysicsVelocity physiceVelocity, in InputData inputData, in MovementSpeed speed)
         {
-            physicsMass.InverseInertia.x = 0f;
+            physicsMass.InverseInertia.x = 0f; //锁定轴防止人物旋转
             physicsMass.InverseInertia.z = 0f;
 
             physiceVelocity.Linear.xz += inputData.Move * DeltaTime * speed.Value; //人物移动
             physiceVelocity.Angular = float3.zero;
 
-            float3 direction = float3.zero;
-            direction.xz = transformAspect.LocalPosition.xz + inputData.Move;
-
-            if (inputData.Move.x != 0 || inputData.Move.y != 0) //没有输入时就不转向
-            {
-                transformAspect.LookAt(direction); //人物看向移动方向
-            }
+            transformAspect.LookAt(inputData.Look);
         }
     }
 }

@@ -39,10 +39,19 @@ namespace Survival.Entities.Controls
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Click"",
+                    ""name"": ""Look"",
                     ""type"": ""Value"",
-                    ""id"": ""7dce3974-6836-489d-aa5f-a580798bc81f"",
+                    ""id"": ""c04c2fff-a30d-45d2-add3-ba1fd0a35b1d"",
                     ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Click"",
+                    ""type"": ""Button"",
+                    ""id"": ""7dce3974-6836-489d-aa5f-a580798bc81f"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -160,37 +169,26 @@ namespace Survival.Entities.Controls
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Lift Mouse"",
-                    ""id"": ""e56bfae7-2aad-4271-bcba-9f991a2f6663"",
-                    ""path"": ""OneModifier"",
+                    ""name"": """",
+                    ""id"": ""5403485a-93b8-4dcf-9c01-99ff26450c83"",
+                    ""path"": ""<Pointer>/position"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Click"",
-                    ""isComposite"": true,
+                    ""groups"": ""Keyboard&Mouse;Touch;Gamepad"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""modifier"",
-                    ""id"": ""87fed7c4-3f70-41b4-82d1-4a8b2e514911"",
+                    ""name"": """",
+                    ""id"": ""6a0d105d-f949-481c-9362-e4680df7b484"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Click"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""binding"",
-                    ""id"": ""d6f65499-342e-40d2-a22f-7d8b9beb6e26"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Click"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -777,6 +775,7 @@ namespace Survival.Entities.Controls
             // Player
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+            m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
             m_Player_Click = m_Player.FindAction("Click", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -850,12 +849,14 @@ namespace Survival.Entities.Controls
         private readonly InputActionMap m_Player;
         private IPlayerActions m_PlayerActionsCallbackInterface;
         private readonly InputAction m_Player_Move;
+        private readonly InputAction m_Player_Look;
         private readonly InputAction m_Player_Click;
         public struct PlayerActions
         {
             private @InputActions m_Wrapper;
             public PlayerActions(@InputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
+            public InputAction @Look => m_Wrapper.m_Player_Look;
             public InputAction @Click => m_Wrapper.m_Player_Click;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
@@ -869,6 +870,9 @@ namespace Survival.Entities.Controls
                     @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                     @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                     @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                    @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                    @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                    @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                     @Click.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClick;
                     @Click.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClick;
                     @Click.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClick;
@@ -879,6 +883,9 @@ namespace Survival.Entities.Controls
                     @Move.started += instance.OnMove;
                     @Move.performed += instance.OnMove;
                     @Move.canceled += instance.OnMove;
+                    @Look.started += instance.OnLook;
+                    @Look.performed += instance.OnLook;
+                    @Look.canceled += instance.OnLook;
                     @Click.started += instance.OnClick;
                     @Click.performed += instance.OnClick;
                     @Click.canceled += instance.OnClick;
@@ -1039,6 +1046,7 @@ namespace Survival.Entities.Controls
         public interface IPlayerActions
         {
             void OnMove(InputAction.CallbackContext context);
+            void OnLook(InputAction.CallbackContext context);
             void OnClick(InputAction.CallbackContext context);
         }
         public interface IUIActions

@@ -18,7 +18,9 @@ namespace Survival.Entities.Authoring
             AddComponent<PlayerTag>();
             AddComponent<InputData>();
             AddComponent(new MovementSpeed { Value = authoring.MovementSpeed });
-            //AddComponent<TargetPosition>();
+
+            AddComponent<Target>();
+            SetComponentEnabled<Target>(GetEntity(),false);
         }
     }
 }

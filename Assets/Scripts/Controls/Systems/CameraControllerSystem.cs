@@ -11,7 +11,6 @@ namespace Survival.Controls
     [BurstCompile]
     public partial class CameraControllerSystem : SystemBase
     {
-
         protected override void OnUpdate()
         {
             var cameraPosition = float3.zero;

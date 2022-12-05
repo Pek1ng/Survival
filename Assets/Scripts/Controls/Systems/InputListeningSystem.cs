@@ -13,6 +13,7 @@ namespace Survival.Controls
     public partial class InputListeningSystem : SystemBase, InputActions.IPlayerActions
     {
         private float2 _move;
+        private Vector2 _look;
 
         private CollisionFilter _collisionFilter;
 
@@ -36,12 +37,27 @@ namespace Survival.Controls
         [BurstCompile]
         protected override void OnUpdate()
         {
+            var ray = Camera.main.ScreenPointToRay(_look);
+            var raycastInput = new RaycastInput
+            {
+                Start = ray.origin,
+                End = ray.GetPoint(100f),
+                Filter = _collisionFilter
+            };
+
+            PhysicsWorldSingleton physicsWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
+            physicsWorld.CastRay(raycastInput, out Unity.Physics.RaycastHit hit);
+
+
             var move = _move;
+            var look = hit.Position;
+            look.y = 0;
 
             Entities.ForEach((ref InputData inputData) =>
             {
+                inputData.Look = look;
                 inputData.Move = move;
-            }).ScheduleParallel();
+            }).ScheduleParallel();       
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -53,18 +69,13 @@ namespace Survival.Controls
         {
             if (context.performed)
             {
-                var ray = Camera.main.ScreenPointToRay(context.ReadValue<Vector2>());
-
-                var raycastInput = new RaycastInput
-                {
-                    Start = ray.origin,
-                    End = ray.GetPoint(100f),
-                    Filter = _collisionFilter
-                };
-
-                PhysicsWorldSingleton physicsWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
-                physicsWorld.CastRay(raycastInput, out Unity.Physics.RaycastHit hit);
+                
             }
+        }
+
+        public void OnLook(InputAction.CallbackContext context)
+        {
+            _look = context.ReadValue<Vector2>();
         }
     }
 }

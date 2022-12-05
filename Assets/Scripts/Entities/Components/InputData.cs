@@ -11,5 +11,7 @@ namespace Survival.Controls
         public Ray Ray;
 
         public float2 Move;
+
+        public float3 Look;
     }
 }

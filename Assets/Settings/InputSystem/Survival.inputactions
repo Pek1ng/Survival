@@ -15,10 +15,19 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Click",
+                    "name": "Look",
                     "type": "Value",
-                    "id": "7dce3974-6836-489d-aa5f-a580798bc81f",
+                    "id": "c04c2fff-a30d-45d2-add3-ba1fd0a35b1d",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Click",
+                    "type": "Button",
+                    "id": "7dce3974-6836-489d-aa5f-a580798bc81f",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -136,37 +145,26 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Lift Mouse",
-                    "id": "e56bfae7-2aad-4271-bcba-9f991a2f6663",
-                    "path": "OneModifier",
+                    "name": "",
+                    "id": "5403485a-93b8-4dcf-9c01-99ff26450c83",
+                    "path": "<Pointer>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Click",
-                    "isComposite": true,
+                    "groups": "Keyboard&Mouse;Touch;Gamepad",
+                    "action": "Look",
+                    "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "modifier",
-                    "id": "87fed7c4-3f70-41b4-82d1-4a8b2e514911",
+                    "name": "",
+                    "id": "6a0d105d-f949-481c-9362-e4680df7b484",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Click",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "binding",
-                    "id": "d6f65499-342e-40d2-a22f-7d8b9beb6e26",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Click",
-                    "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 }
             ]
         },

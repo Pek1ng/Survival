@@ -46,15 +46,6 @@ namespace Survival.Entities.Controls
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Click"",
-                    ""type"": ""Button"",
-                    ""id"": ""7dce3974-6836-489d-aa5f-a580798bc81f"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -174,19 +165,8 @@ namespace Survival.Entities.Controls
                     ""path"": ""<Pointer>/position"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse;Touch;Gamepad"",
+                    ""groups"": ""Keyboard&Mouse;Touch"",
                     ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6a0d105d-f949-481c-9362-e4680df7b484"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -776,7 +756,6 @@ namespace Survival.Entities.Controls
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
-            m_Player_Click = m_Player.FindAction("Click", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -850,14 +829,12 @@ namespace Survival.Entities.Controls
         private IPlayerActions m_PlayerActionsCallbackInterface;
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Look;
-        private readonly InputAction m_Player_Click;
         public struct PlayerActions
         {
             private @InputActions m_Wrapper;
             public PlayerActions(@InputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Look => m_Wrapper.m_Player_Look;
-            public InputAction @Click => m_Wrapper.m_Player_Click;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -873,9 +850,6 @@ namespace Survival.Entities.Controls
                     @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                     @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                     @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
-                    @Click.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClick;
-                    @Click.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClick;
-                    @Click.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClick;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -886,9 +860,6 @@ namespace Survival.Entities.Controls
                     @Look.started += instance.OnLook;
                     @Look.performed += instance.OnLook;
                     @Look.canceled += instance.OnLook;
-                    @Click.started += instance.OnClick;
-                    @Click.performed += instance.OnClick;
-                    @Click.canceled += instance.OnClick;
                 }
             }
         }
@@ -1047,7 +1018,6 @@ namespace Survival.Entities.Controls
         {
             void OnMove(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
-            void OnClick(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

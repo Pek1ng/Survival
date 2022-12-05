@@ -1,17 +1,15 @@
 ﻿using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
-using UnityEngine;
+using Unity.Physics;
 
 namespace Survival.Controls
 {
     [BurstCompile]
     public struct InputData : IComponentData
     {
-        public Ray Ray;
+        public RaycastHit Hit;
 
         public float2 Move;
-
-        public float3 Look;
     }
 }

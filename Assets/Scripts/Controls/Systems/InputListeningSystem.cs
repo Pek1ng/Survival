@@ -2,8 +2,8 @@ using Survival.Entities.Controls;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Physics.Authoring;
 using Unity.Physics;
+using Unity.Physics.Authoring;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,10 +13,8 @@ namespace Survival.Controls
     public partial class InputListeningSystem : SystemBase, InputActions.IPlayerActions
     {
         private float2 _move;
-        private Vector2 _look;
 
         private CollisionFilter _collisionFilter;
-
         protected override void OnCreate()
         {
             InputActions inputAction = new InputActions();
@@ -37,7 +35,8 @@ namespace Survival.Controls
         [BurstCompile]
         protected override void OnUpdate()
         {
-            var ray = Camera.main.ScreenPointToRay(_look);
+            var ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+
             var raycastInput = new RaycastInput
             {
                 Start = ray.origin,
@@ -45,19 +44,16 @@ namespace Survival.Controls
                 Filter = _collisionFilter
             };
 
-            PhysicsWorldSingleton physicsWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
-            physicsWorld.CastRay(raycastInput, out Unity.Physics.RaycastHit hit);
-
+            var physicsWorldSingleton = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
+            physicsWorldSingleton.CastRay(raycastInput, out Unity.Physics.RaycastHit hit);
 
             var move = _move;
-            var look = hit.Position;
-            look.y = 0;
 
             Entities.ForEach((ref InputData inputData) =>
-            {
-                inputData.Look = look;
-                inputData.Move = move;
-            }).ScheduleParallel();       
+                {
+                    inputData.Hit = hit;
+                    inputData.Move = move;
+                }).ScheduleParallel();
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -67,15 +63,11 @@ namespace Survival.Controls
 
         public void OnClick(InputAction.CallbackContext context)
         {
-            if (context.performed)
-            {
-                
-            }
         }
 
         public void OnLook(InputAction.CallbackContext context)
         {
-            _look = context.ReadValue<Vector2>();
+
         }
     }
 }

@@ -1,8 +1,10 @@
 using Survival.Entities;
 using Unity.Burst;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
+using Unity.Physics.Authoring;
 using Unity.Transforms;
 
 namespace Survival.Controls
@@ -51,7 +53,10 @@ namespace Survival.Controls
             physiceVelocity.Linear.xz += inputData.Move * DeltaTime * speed.Value; //»ÀŒÔ“∆∂Ø
             physiceVelocity.Angular = float3.zero;
 
-            transformAspect.LookAt(inputData.Look);
+
+            var targrt = inputData.Hit.Position;
+            targrt.y = 0;
+            transformAspect.LookAt(targrt);
         }
     }
 }

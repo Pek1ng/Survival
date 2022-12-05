@@ -22,15 +22,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "Click",
-                    "type": "Button",
-                    "id": "7dce3974-6836-489d-aa5f-a580798bc81f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -150,19 +141,8 @@
                     "path": "<Pointer>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse;Touch;Gamepad",
+                    "groups": "Keyboard&Mouse;Touch",
                     "action": "Look",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6a0d105d-f949-481c-9362-e4680df7b484",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

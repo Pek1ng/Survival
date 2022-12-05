@@ -2,69 +2,69 @@ using Survival.Entities.Controls;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Physics.Authoring;
+using Unity.Physics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Survival.Controls
 {
     [BurstCompile]
-    public partial struct InputListeningSystem : ISystem, InputActions.IPlayerActions
+    public partial class InputListeningSystem : SystemBase, InputActions.IPlayerActions
     {
-        private static float2 _move;
-        private static float2 _look;
+        private float2 _move;
 
-        public void OnCreate(ref SystemState state)
+        private CollisionFilter _collisionFilter;
+
+        protected override void OnCreate()
         {
             InputActions inputAction = new InputActions();
             inputAction.Enable();
             inputAction.Player.SetCallbacks(this);
-        }
 
-        [BurstCompile]
-        public void OnDestroy(ref SystemState state)
-        {
-
-        }
-
-        [BurstCompile]
-        public void OnUpdate(ref SystemState state)
-        {
-            var jobHandle = new InputListeningJob
+            _collisionFilter = new CollisionFilter
             {
-                Move = _move,
-                Look = _look
-            }.ScheduleParallel(state.Dependency);
+                BelongsTo = new PhysicsCategoryTags
+                {
+                    Category00 = true
+                }.Value,
 
-            jobHandle.Complete();
+                CollidesWith = PhysicsCategoryTags.Everything.Value
+            };
         }
 
-        public void OnFire(InputAction.CallbackContext context)
+        [BurstCompile]
+        protected override void OnUpdate()
         {
+            var move = _move;
 
-        }
-
-        public void OnLook(InputAction.CallbackContext context)
-        {
-            _look = context.ReadValue<Vector2>();
+            Entities.ForEach((ref InputData inputData) =>
+            {
+                inputData.Move = move;
+            }).ScheduleParallel();
         }
 
         public void OnMove(InputAction.CallbackContext context)
         {
             _move = context.ReadValue<Vector2>();
         }
-    }
 
-    [BurstCompile]
-    public partial struct InputListeningJob : IJobEntity
-    {
-        public float2 Move;
-        public float2 Look;
-
-        [BurstCompile]
-        public void Execute(ref InputData inputData)
+        public void OnClick(InputAction.CallbackContext context)
         {
-            inputData.Move = Move;
-            inputData.Look = Look;
+            if (context.performed)
+            {
+                var ray = Camera.main.ScreenPointToRay(context.ReadValue<Vector2>());
+
+                var raycastInput = new RaycastInput
+                {
+                    Start = ray.origin,
+                    End = ray.GetPoint(100f),
+                    Filter = _collisionFilter
+                };
+
+                PhysicsWorldSingleton physicsWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
+                physicsWorld.CastRay(raycastInput, out Unity.Physics.RaycastHit hit);
+            }
         }
     }
 }

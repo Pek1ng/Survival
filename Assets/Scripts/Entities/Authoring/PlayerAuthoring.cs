@@ -20,7 +20,8 @@ namespace Survival.Entities.Authoring
             AddComponent(new MovementSpeed { Value = authoring.MovementSpeed });
 
             AddComponent<Target>();
-            SetComponentEnabled<Target>(GetEntity(),false);
+            AddComponent<HaveTartgetTag>();
+            SetComponentEnabled<HaveTartgetTag>(GetEntity(),false);
         }
     }
 }

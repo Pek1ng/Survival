@@ -60,8 +60,6 @@ namespace Survival.Controls
         private readonly RefRW<PhysicsVelocity> _physicsVelocity;
         private readonly RefRW<InputData> _inputData;
         private readonly RefRO<MovementSpeed> _movementSpeed;
-        private readonly TargetPositionEnableAspect _targetPositionEnableAspect;
-
 
         [BurstCompile]
         public void Move(float deltaTime)
@@ -70,11 +68,6 @@ namespace Survival.Controls
             _physicsMass.ValueRW.InverseInertia.z = 0f;
 
             _physicsVelocity.ValueRW.Linear.xz += _inputData.ValueRO.Move * deltaTime * _movementSpeed.ValueRO.Value; //»ÀŒÔ“∆∂Ø
-
-            if (_inputData.ValueRO.Move.x != 0 || _inputData.ValueRO.Move.y != 0)
-            {
-                _targetPositionEnableAspect.Enable.ValueRW = false;
-            }
         }
 
         public void Look(CollisionFilter collisionFilter, PhysicsWorldSingleton physicsWorldRW)

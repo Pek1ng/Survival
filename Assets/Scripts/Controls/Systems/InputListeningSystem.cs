@@ -42,10 +42,7 @@ namespace Survival.Controls
 
         public void OnClick(InputAction.CallbackContext context)
         {
-            if (context.performed)
-            {
-                _mouseClick= true;
-            }
+            _mouseClick = context.performed;
         }
 
         public void OnLook(InputAction.CallbackContext context)

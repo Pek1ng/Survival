@@ -1,4 +1,6 @@
-﻿using Unity.Burst;
+﻿using JetBrains.Annotations;
+using Survival.Controls;
+using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
@@ -32,14 +34,24 @@ namespace Survival.Entities
             }.ScheduleParallel(state.Dependency);
 
             jobHandle.Complete();
+
+            foreach ((var targetRW,var inputData,var entity) in SystemAPI.Query<RefRW<Target>,InputData>().WithEntityAccess())
+            {
+                if (inputData.MouseClick)
+                {
+                    state.EntityManager.SetComponentEnabled<HaveTartgetTag>(entity,true);
+                    targetRW.ValueRW.Position = inputData.Hit.Position;
+                    targetRW.ValueRW.Entity=inputData.Hit.Entity;
+                }
+            }
         }
     }
 
     [BurstCompile]
     public readonly partial struct TargetPositionAspect : IAspect
     {
+        private readonly EnabledRefRW<HaveTartgetTag> _haveTartgetTag;
         private readonly RefRW<Target> _targetPositionRW;
-      //  private readonly TargetPositionEnableAspect targetPositionEnableAspect;
         private readonly TransformAspect _transformAspect;
         private readonly RefRO<MovementSpeed> _movementSpeedRO;
         private readonly RefRW<PhysicsVelocity> _physicsVelocityRW;
@@ -47,12 +59,11 @@ namespace Survival.Entities
         [BurstCompile]
         public void Move(float deltaTime)
         {
-
             var distance = math.distance(_targetPositionRW.ValueRO.Position.xz, _transformAspect.WorldPosition.xz);
 
             if (distance < 0.1f)
             {
-                //targetPositionEnableAspect.Enable.ValueRW= false;
+                _haveTartgetTag.ValueRW = false;
             }
             else
             {
@@ -62,11 +73,6 @@ namespace Survival.Entities
         }
     }
 
-
-    public readonly partial struct TargetPositionEnableAspect : IAspect
-    {
-       public readonly EnabledRefRW<Target> Enable;
-    }
 
     [BurstCompile]
     public partial struct TargetPositionJob : IJobEntity

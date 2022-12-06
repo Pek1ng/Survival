@@ -3,7 +3,9 @@ using Unity.Mathematics;
 
 namespace Survival.Entities
 {
-    public struct Target : IComponentData, IEnableableComponent
+    public struct HaveTartgetTag : IComponentData, IEnableableComponent { }
+
+    public struct Target : IComponentData
     {
 
         public float3 Position;

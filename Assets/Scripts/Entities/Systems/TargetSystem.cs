@@ -37,11 +37,18 @@ namespace Survival.Entities
 
             foreach ((var targetRW,var inputData,var entity) in SystemAPI.Query<RefRW<Target>,InputData>().WithEntityAccess())
             {
-                if (inputData.MouseClick)
+                if (inputData.Move.x != 0 || inputData.Move.y != 0)
                 {
-                    state.EntityManager.SetComponentEnabled<HaveTartgetTag>(entity,true);
-                    targetRW.ValueRW.Position = inputData.Hit.Position;
-                    targetRW.ValueRW.Entity=inputData.Hit.Entity;
+                    state.EntityManager.SetComponentEnabled<HaveTartgetTag>(entity, false);
+                }
+                else
+                {
+                    if (inputData.MouseClick)
+                    {
+                        state.EntityManager.SetComponentEnabled<HaveTartgetTag>(entity, true);
+                        targetRW.ValueRW.Position = inputData.Hit.Position;
+                        targetRW.ValueRW.Entity = inputData.Hit.Entity;
+                    }
                 }
             }
         }

@@ -1,5 +1,6 @@
 using Survival.Entities.Authoring;
 using Unity.Burst;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace Survival.Controls
 {
-    [UpdateAfter(typeof(PlayerMovemnetSystem))]
+    [UpdateAfter(typeof(PlayerControllerSystem))]
     [BurstCompile]
     public partial class CameraControllerSystem : SystemBase
     {

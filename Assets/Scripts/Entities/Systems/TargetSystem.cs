@@ -12,7 +12,7 @@ namespace Survival.Entities
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
-            
+
         }
 
         [BurstCompile]
@@ -39,6 +39,7 @@ namespace Survival.Entities
     public readonly partial struct TargetPositionAspect : IAspect
     {
         private readonly RefRW<Target> _targetPositionRW;
+      //  private readonly TargetPositionEnableAspect targetPositionEnableAspect;
         private readonly TransformAspect _transformAspect;
         private readonly RefRO<MovementSpeed> _movementSpeedRO;
         private readonly RefRW<PhysicsVelocity> _physicsVelocityRW;
@@ -51,7 +52,7 @@ namespace Survival.Entities
 
             if (distance < 0.1f)
             {
-
+                //targetPositionEnableAspect.Enable.ValueRW= false;
             }
             else
             {
@@ -61,6 +62,11 @@ namespace Survival.Entities
         }
     }
 
+
+    public readonly partial struct TargetPositionEnableAspect : IAspect
+    {
+       public readonly EnabledRefRW<Target> Enable;
+    }
 
     [BurstCompile]
     public partial struct TargetPositionJob : IJobEntity

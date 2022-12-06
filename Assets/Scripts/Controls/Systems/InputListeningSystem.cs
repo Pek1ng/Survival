@@ -2,8 +2,6 @@ using Survival.Entities.Controls;
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Physics;
-using Unity.Physics.Authoring;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,46 +11,27 @@ namespace Survival.Controls
     public partial class InputListeningSystem : SystemBase, InputActions.IPlayerActions
     {
         private float2 _move;
+        private bool _mouseClick;
 
-        private CollisionFilter _collisionFilter;
         protected override void OnCreate()
         {
             InputActions inputAction = new InputActions();
             inputAction.Enable();
             inputAction.Player.SetCallbacks(this);
-
-            _collisionFilter = new CollisionFilter
-            {
-                BelongsTo = new PhysicsCategoryTags
-                {
-                    Category00 = true
-                }.Value,
-
-                CollidesWith = PhysicsCategoryTags.Everything.Value
-            };
         }
 
         [BurstCompile]
         protected override void OnUpdate()
         {
-            var ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-
-            var raycastInput = new RaycastInput
-            {
-                Start = ray.origin,
-                End = ray.GetPoint(100f),
-                Filter = _collisionFilter
-            };
-
-            var physicsWorldSingleton = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
-            physicsWorldSingleton.CastRay(raycastInput, out Unity.Physics.RaycastHit hit);
-
+            var ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()); //ÀÏ°æ±¾ÉäÏß
             var move = _move;
+            var mouseClick = _mouseClick;
 
             Entities.ForEach((ref InputData inputData) =>
                 {
-                    inputData.Hit = hit;
+                    inputData.Ray =ray;
                     inputData.Move = move;
+                    inputData.MouseClick = mouseClick;
                 }).ScheduleParallel();
         }
 
@@ -63,6 +42,10 @@ namespace Survival.Controls
 
         public void OnClick(InputAction.CallbackContext context)
         {
+            if (context.performed)
+            {
+                _mouseClick= true;
+            }
         }
 
         public void OnLook(InputAction.CallbackContext context)

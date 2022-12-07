@@ -1,7 +1,7 @@
 using Unity.Entities;
 using Unity.Mathematics;
 
-namespace Survival.Entities
+namespace Survival.Creatures
 {
     public struct HaveTartgetTag : IComponentData, IEnableableComponent { }
 

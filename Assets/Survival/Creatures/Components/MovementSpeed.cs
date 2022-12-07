@@ -1,6 +1,6 @@
 using Unity.Entities;
 
-namespace Survival.Entities
+namespace Survival.Creatures
 {
     public struct MovementSpeed : IComponentData
     {

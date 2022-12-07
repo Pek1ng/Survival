@@ -1,4 +1,4 @@
-using Survival.Entities;
+using Survival.Creatures;
 using Unity.Entities;
 using UnityEngine;
 
@@ -6,6 +6,7 @@ namespace Survival.Controller
 {
     public struct PlayerTag : IComponentData { }
 
+    [DisallowMultipleComponent]
     public class PlayerAuthoring : MonoBehaviour
     {
         public float MovementSpeed;

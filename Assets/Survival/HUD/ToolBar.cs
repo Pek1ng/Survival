@@ -1,3 +1,4 @@
+using System.Text;
 using UnityEngine;
 
 namespace Survival.HUD
@@ -10,7 +11,7 @@ namespace Survival.HUD
 
         private void Awake()
         {
-            Debug.Log(transform.childCount);
+            
 
             for (int i = 0; i < transform.childCount; i++)
             {

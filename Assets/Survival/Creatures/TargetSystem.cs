@@ -4,7 +4,7 @@ using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Transforms;
 
-namespace Survival.Entities
+namespace Survival.Creatures
 {
     [BurstCompile]
     public partial struct TargetSystem : ISystem

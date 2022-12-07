@@ -470,7 +470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Columns: 7
-  ItemTemplate: {fileID: 0}
+  Slots: []
 --- !u!1 &173389641
 GameObject:
   m_ObjectHideFlags: 0

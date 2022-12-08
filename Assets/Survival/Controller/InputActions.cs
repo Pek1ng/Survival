@@ -55,6 +55,15 @@ namespace Survival.Controller
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchTabBar"",
+                    ""type"": ""Button"",
+                    ""id"": ""0c62c206-7a0d-4fd2-aadb-798b7af2fa0a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -777,6 +786,7 @@ namespace Survival.Controller
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
             m_Player_Click = m_Player.FindAction("Click", throwIfNotFound: true);
+            m_Player_SwitchTabBar = m_Player.FindAction("SwitchTabBar", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -851,6 +861,7 @@ namespace Survival.Controller
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Look;
         private readonly InputAction m_Player_Click;
+        private readonly InputAction m_Player_SwitchTabBar;
         public struct PlayerActions
         {
             private @InputActions m_Wrapper;
@@ -858,6 +869,7 @@ namespace Survival.Controller
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Look => m_Wrapper.m_Player_Look;
             public InputAction @Click => m_Wrapper.m_Player_Click;
+            public InputAction @SwitchTabBar => m_Wrapper.m_Player_SwitchTabBar;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -876,6 +888,9 @@ namespace Survival.Controller
                     @Click.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClick;
                     @Click.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClick;
                     @Click.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClick;
+                    @SwitchTabBar.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchTabBar;
+                    @SwitchTabBar.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchTabBar;
+                    @SwitchTabBar.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchTabBar;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -889,6 +904,9 @@ namespace Survival.Controller
                     @Click.started += instance.OnClick;
                     @Click.performed += instance.OnClick;
                     @Click.canceled += instance.OnClick;
+                    @SwitchTabBar.started += instance.OnSwitchTabBar;
+                    @SwitchTabBar.performed += instance.OnSwitchTabBar;
+                    @SwitchTabBar.canceled += instance.OnSwitchTabBar;
                 }
             }
         }
@@ -1048,6 +1066,7 @@ namespace Survival.Controller
             void OnMove(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
             void OnClick(InputAction.CallbackContext context);
+            void OnSwitchTabBar(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {

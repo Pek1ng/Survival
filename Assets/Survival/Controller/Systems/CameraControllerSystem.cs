@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace Survival.Controller
 {
-    [UpdateAfter(typeof(PlayerControllerSystem))]
     [BurstCompile]
     public partial class CameraControllerSystem : SystemBase
     {

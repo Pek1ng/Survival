@@ -1,12 +1,13 @@
 ﻿using Unity.Burst;
-using Unity.Entities;
 using Unity.Mathematics;
+using Unity.NetCode;
 using Unity.Physics;
 
 namespace Survival.Controller
 {
     [BurstCompile]
-    public struct InputData : IComponentData
+    [GhostComponent(PrefabType = GhostPrefabType.AllPredicted)]
+    public struct InputData :  IInputComponentData
     {
         public UnityEngine.Ray Ray;
 

@@ -10,7 +10,7 @@ using Unity.Transforms;
 namespace Survival.Controller
 {
     [BurstCompile]
-    [UpdateAfter(typeof(InputListeningSystem))]
+    [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
     public partial struct PlayerControllerSystem : ISystem
     {
         private CollisionFilter _collisionFilter;
@@ -18,7 +18,7 @@ namespace Survival.Controller
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
-            _collisionFilter = new CollisionFilter //…‰œﬂº‡≤‚π˝¬À
+            _collisionFilter = new CollisionFilter //…‰œﬂºÏ≤‚π˝¬À
             {
                 BelongsTo = new PhysicsCategoryTags
                 {
@@ -38,34 +38,34 @@ namespace Survival.Controller
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            var physicsWorldSingleton = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
+            //var physicsWorldSingleton = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
             var deltaTime = SystemAPI.Time.DeltaTime;
 
             var jobHandle = new PlayerControllerJob
             {
                 DeltaTime = deltaTime,
-                PhysicsWorldSingleton = physicsWorldSingleton,
-                CollisionFilter = _collisionFilter,
+                //PhysicsWorldSingleton = physicsWorldSingleton,
+                //CollisionFilter = _collisionFilter,
             }.ScheduleParallel(state.Dependency);
 
             jobHandle.Complete();
 
-            foreach ((var targetRW, var inputData, var entity) in SystemAPI.Query<RefRW<Target>, InputData>().WithEntityAccess())
-            {
-                if (inputData.Move.x != 0 || inputData.Move.y != 0)
-                {
-                    state.EntityManager.SetComponentEnabled<HaveTartgetTag>(entity, false);
-                }
-                else
-                {
-                    if (inputData.MouseClick)
-                    {
-                        state.EntityManager.SetComponentEnabled<HaveTartgetTag>(entity, true);
-                        targetRW.ValueRW.Position = inputData.Hit.Position;
-                        targetRW.ValueRW.Entity = inputData.Hit.Entity;
-                    }
-                }
-            }
+            //foreach ((var targetRW, var inputData, var entity) in SystemAPI.Query<RefRW<Target>, InputData>().WithEntityAccess())
+            //{
+            //    if (inputData.Move.x != 0 || inputData.Move.y != 0)
+            //    {
+            //        state.EntityManager.SetComponentEnabled<HaveTartgetTag>(entity, false);
+            //    }
+            //    else
+            //    {
+            //        if (inputData.MouseClick)
+            //        {
+            //            state.EntityManager.SetComponentEnabled<HaveTartgetTag>(entity, true);
+            //            targetRW.ValueRW.Position = inputData.Hit.Position;
+            //            targetRW.ValueRW.Entity = inputData.Hit.Entity;
+            //        }
+            //    }
+            //}
         }
     }
 
@@ -96,11 +96,12 @@ namespace Survival.Controller
                 Filter = collisionFilter
             };
 
-            physicsWorldRW.CastRay(raycastInput, out RaycastHit hit);
+            physicsWorldRW.CastRay(raycastInput, out Unity.Physics.RaycastHit hit);
 
             _inputData.ValueRW.Hit = hit;
 
             float3 target = hit.Position;
+
             target.y = 0;
 
             _transformAspect.LookAt(target);
@@ -111,14 +112,14 @@ namespace Survival.Controller
     public partial struct PlayerControllerJob : IJobEntity
     {
         public float DeltaTime;
-        public CollisionFilter CollisionFilter;
-        [ReadOnly] public PhysicsWorldSingleton PhysicsWorldSingleton;
+        //public CollisionFilter CollisionFilter;
+        //[ReadOnly] public PhysicsWorldSingleton PhysicsWorldSingleton;
 
         [BurstCompile]
         public void Execute(PlayerControllerAspect aspect)
         {
             aspect.Move(DeltaTime);
-            aspect.Look(CollisionFilter, PhysicsWorldSingleton);
+            //aspect.Look(CollisionFilter, PhysicsWorldSingleton);
         }
     }
 }

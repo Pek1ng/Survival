@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 6747633354ec88e43a11e5a332c8b8f9
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Nowar Warcraft Rounded CN
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 31b11b3e10a877c45ae117620675d52d, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -22,8 +22,8 @@ namespace Survival.HUD
                     Slots.Add(transform.GetChild(i).gameObject);
                 }
             }
-
-
         }
+
+
     }
 }

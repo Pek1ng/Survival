@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 namespace Survival.Controller
 {
     [BurstCompile]
+    [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation)]
     public partial class InputListeningSystem : SystemBase, InputActions.IPlayerActions
     {
         private float2 _move;
@@ -42,11 +43,17 @@ namespace Survival.Controller
         public void OnClick(InputAction.CallbackContext context)
         {
             _mouseClick = context.performed;
+
         }
 
         public void OnLook(InputAction.CallbackContext context)
         {
 
+        }
+
+        public void OnSwitchTabBar(InputAction.CallbackContext context)
+        {
+            Debug.Log(context.ReadValue<float>());
         }
     }
 }

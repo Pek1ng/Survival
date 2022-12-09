@@ -11,9 +11,24 @@
 * Shared -公共库
 * Terrain -地形系统
 
+## 引用关系
+
 ```
- A(开始)
- B[结束]
- C{开电视吗}
- D((不开))
+graph TD;
+    Survival.Controller-->Survival.Creatures;
+    Survival.Controller-->Survival.Shared;
+    Survival.Controller-->Survival.Physics;
+    Survival.Physics-->Survival.Shared;
+
+```
+
+## Assembly Definition Reference
+
+```C#
+using Unity.Burst;
+using Unity.Collections;
+using Unity.Entities;
+using Unity.Mathematics;
+using Unity.NetCode;
+using Unity.Physics;
 ```

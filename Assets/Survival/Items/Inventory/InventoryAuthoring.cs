@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Unity.Entities;
+﻿using Unity.Entities;
 using UnityEngine;
 
 namespace Survival.Items.Inventory

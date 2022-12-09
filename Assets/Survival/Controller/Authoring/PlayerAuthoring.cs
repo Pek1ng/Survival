@@ -10,19 +10,19 @@ namespace Survival.Controller
     public class PlayerAuthoring : MonoBehaviour
     {
         public float MovementSpeed;
-    }
 
-    public class PlayerBaker : Baker<PlayerAuthoring>
-    {
-        public override void Bake(PlayerAuthoring authoring)
+        private class PlayerBaker : Baker<PlayerAuthoring>
         {
-            AddComponent<PlayerTag>();
-            AddComponent<InputData>();
-            AddComponent(new MovementSpeed { Value = authoring.MovementSpeed });
+            public override void Bake(PlayerAuthoring authoring)
+            {
+                AddComponent<PlayerTag>();
+                AddComponent<InputData>();
+                AddComponent(new MovementSpeed { Value = authoring.MovementSpeed });
 
-            AddComponent<Target>();
-            AddComponent<HaveTartgetTag>();
-            SetComponentEnabled<HaveTartgetTag>(GetEntity(), false);
+                AddComponent<Target>();
+                AddComponent<HaveTartgetTag>();
+                SetComponentEnabled<HaveTartgetTag>(GetEntity(), false);
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ using Unity.Transforms;
 namespace Survival.Creatures
 {
     [BurstCompile]
+    [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
     public partial struct TargetSystem : ISystem
     {
         [BurstCompile]

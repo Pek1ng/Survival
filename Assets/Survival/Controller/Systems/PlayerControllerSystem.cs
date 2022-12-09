@@ -38,34 +38,34 @@ namespace Survival.Controller
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            //var physicsWorldSingleton = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
+            var physicsWorldSingleton = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
             var deltaTime = SystemAPI.Time.DeltaTime;
 
             var jobHandle = new PlayerControllerJob
             {
                 DeltaTime = deltaTime,
-                //PhysicsWorldSingleton = physicsWorldSingleton,
-                //CollisionFilter = _collisionFilter,
+                PhysicsWorldSingleton = physicsWorldSingleton,
+                CollisionFilter = _collisionFilter,
             }.ScheduleParallel(state.Dependency);
 
             jobHandle.Complete();
 
-            //foreach ((var targetRW, var inputData, var entity) in SystemAPI.Query<RefRW<Target>, InputData>().WithEntityAccess())
-            //{
-            //    if (inputData.Move.x != 0 || inputData.Move.y != 0)
-            //    {
-            //        state.EntityManager.SetComponentEnabled<HaveTartgetTag>(entity, false);
-            //    }
-            //    else
-            //    {
-            //        if (inputData.MouseClick)
-            //        {
-            //            state.EntityManager.SetComponentEnabled<HaveTartgetTag>(entity, true);
-            //            targetRW.ValueRW.Position = inputData.Hit.Position;
-            //            targetRW.ValueRW.Entity = inputData.Hit.Entity;
-            //        }
-            //    }
-            //}
+            foreach ((var targetRW, var inputData, var entity) in SystemAPI.Query<RefRW<Target>, InputData>().WithEntityAccess())
+            {
+                if (inputData.Move.x != 0 || inputData.Move.y != 0)
+                {
+                    state.EntityManager.SetComponentEnabled<HaveTartgetTag>(entity, false);
+                }
+                else
+                {
+                    if (inputData.MouseClick)
+                    {
+                        state.EntityManager.SetComponentEnabled<HaveTartgetTag>(entity, true);
+                        targetRW.ValueRW.Position = inputData.Hit.Position;
+                        targetRW.ValueRW.Entity = inputData.Hit.Entity;
+                    }
+                }
+            }
         }
     }
 
@@ -112,14 +112,14 @@ namespace Survival.Controller
     public partial struct PlayerControllerJob : IJobEntity
     {
         public float DeltaTime;
-        //public CollisionFilter CollisionFilter;
-        //[ReadOnly] public PhysicsWorldSingleton PhysicsWorldSingleton;
+        public CollisionFilter CollisionFilter;
+        [ReadOnly] public PhysicsWorldSingleton PhysicsWorldSingleton;
 
         [BurstCompile]
         public void Execute(PlayerControllerAspect aspect)
         {
             aspect.Move(DeltaTime);
-            //aspect.Look(CollisionFilter, PhysicsWorldSingleton);
+            aspect.Look(CollisionFilter, PhysicsWorldSingleton);
         }
     }
 }

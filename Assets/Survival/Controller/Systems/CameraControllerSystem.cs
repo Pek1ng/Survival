@@ -7,6 +7,7 @@ using UnityEngine;
 namespace Survival.Controller
 {
     [BurstCompile]
+    [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation)]
     public partial class CameraControllerSystem : SystemBase
     {
         protected override void OnUpdate()

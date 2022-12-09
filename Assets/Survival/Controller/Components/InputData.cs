@@ -5,7 +5,6 @@ using Unity.Physics;
 
 namespace Survival.Controller
 {
-    [BurstCompile]
     [GhostComponent(PrefabType = GhostPrefabType.AllPredicted)]
     public struct InputData : IInputComponentData
     {

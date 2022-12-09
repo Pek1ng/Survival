@@ -1,13 +1,14 @@
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.NetCode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Survival.Controller
 {
     [BurstCompile]
-    [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation)]
+    [UpdateInGroup(typeof(GhostInputSystemGroup))]
     public partial class InputListeningSystem : SystemBase, InputActions.IPlayerActions
     {
         private float2 _move;

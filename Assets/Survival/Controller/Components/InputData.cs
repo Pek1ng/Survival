@@ -8,10 +8,16 @@ namespace Survival.Controller
     [GhostComponent(PrefabType = GhostPrefabType.AllPredicted)]
     public struct InputData : IInputComponentData
     {
-        public UnityEngine.Ray Ray;
+        [GhostField(Quantization = 100)]
+        public float3 RayOrigin;
 
-        public RaycastHit Hit;
+        [GhostField(Quantization = 100)]
+        public float3 RayEnd;
 
+        [GhostField(Quantization = 100)]
+        public float3 HitPosition;
+
+        [GhostField(Quantization = 100)]
         public float2 Move;
 
         public bool MouseClick;

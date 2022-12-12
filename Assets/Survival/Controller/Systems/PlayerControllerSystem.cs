@@ -6,6 +6,7 @@ using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Physics.Authoring;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace Survival.Controller
 {
@@ -38,14 +39,14 @@ namespace Survival.Controller
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            var physicsWorldSingleton = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
             var deltaTime = SystemAPI.Time.DeltaTime;
+            var physicsWorldSingleton = SystemAPI.GetSingleton<PhysicsWorldSingleton>();
 
             var jobHandle = new PlayerControllerJob
             {
                 DeltaTime = deltaTime,
                 PhysicsWorldSingleton = physicsWorldSingleton,
-                CollisionFilter = _collisionFilter,
+                CollisionFilter= _collisionFilter
             }.ScheduleParallel(state.Dependency);
 
             jobHandle.Complete();
@@ -61,8 +62,7 @@ namespace Survival.Controller
                     if (inputData.MouseClick)
                     {
                         state.EntityManager.SetComponentEnabled<HaveTartgetTag>(entity, true);
-                        targetRW.ValueRW.Position = inputData.Hit.Position;
-                        targetRW.ValueRW.Entity = inputData.Hit.Entity;
+                        targetRW.ValueRW.Position = inputData.HitPosition;
                     }
                 }
             }
@@ -73,7 +73,6 @@ namespace Survival.Controller
     public readonly partial struct PlayerControllerAspect : IAspect
     {
         private readonly TransformAspect _transformAspect;
-        private readonly RefRW<PhysicsMass> _physicsMass;
         private readonly RefRW<PhysicsVelocity> _physicsVelocity;
         private readonly RefRW<InputData> _inputData;
         private readonly RefRO<MovementSpeed> _movementSpeed;
@@ -81,27 +80,23 @@ namespace Survival.Controller
         [BurstCompile]
         public void Move(float deltaTime)
         {
-            _physicsMass.ValueRW.InverseInertia.x = 0f; //锁定轴防止人物旋转
-            _physicsMass.ValueRW.InverseInertia.z = 0f;
-
             _physicsVelocity.ValueRW.Linear.xz += _inputData.ValueRO.Move * deltaTime * _movementSpeed.ValueRO.Value; //人物移动
         }
 
-        public void Look(CollisionFilter collisionFilter, PhysicsWorldSingleton physicsWorldRW)
+        [BurstCompile]
+        public void Look(CollisionFilter collisionFilter, PhysicsWorldSingleton physicsWorldSingleton)
         {
             var raycastInput = new RaycastInput
             {
-                Start = _inputData.ValueRO.Ray.origin,
-                End = _inputData.ValueRO.Ray.GetPoint(100f),
+                Start = _inputData.ValueRO.RayOrigin,
+                End = _inputData.ValueRO.RayEnd,
                 Filter = collisionFilter
             };
 
-            physicsWorldRW.CastRay(raycastInput, out Unity.Physics.RaycastHit hit);
+            physicsWorldSingleton.CastRay(raycastInput, out Unity.Physics.RaycastHit hit);
+            _inputData.ValueRW.HitPosition = hit.Position;
 
-            _inputData.ValueRW.Hit = hit;
-
-            float3 target = hit.Position;
-
+            var target = hit.Position;
             target.y = 0;
 
             _transformAspect.LookAt(target);
@@ -119,7 +114,7 @@ namespace Survival.Controller
         public void Execute(PlayerControllerAspect aspect)
         {
             aspect.Move(DeltaTime);
-            aspect.Look(CollisionFilter, PhysicsWorldSingleton);
+            aspect.Look(CollisionFilter,PhysicsWorldSingleton);
         }
     }
 }

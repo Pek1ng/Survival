@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 namespace Survival.Controller
 {
     [BurstCompile]
-    [UpdateInGroup(typeof(GhostInputSystemGroup))]
+    [UpdateInGroup(typeof(GhostInputSystemGroup))] //该组只在本地运行
     public partial class InputListeningSystem : SystemBase, InputActions.IPlayerActions
     {
         private float2 _move;
@@ -25,12 +25,16 @@ namespace Survival.Controller
         protected override void OnUpdate()
         {
             var ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()); //老版本射线
+            var origin = ray.origin;
+            var end = ray.GetPoint(100f);
+
             var move = _move;
             var mouseClick = _mouseClick;
 
             Entities.ForEach((ref InputData inputData) =>
                 {
-                    inputData.Ray = ray;
+                    inputData.RayOrigin = origin;
+                    inputData.RayEnd = end;
                     inputData.Move = move;
                     inputData.MouseClick = mouseClick;
                 }).ScheduleParallel();

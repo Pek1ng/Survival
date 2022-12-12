@@ -6,6 +6,10 @@ using Unity.NetCode;
 
 namespace Survival.Nework
 {
+    using Unity.Collections;
+    using Unity.Entities;
+    using Unity.NetCode;
+
     public struct GoInGameRequest : IRpcCommand
     {
     }

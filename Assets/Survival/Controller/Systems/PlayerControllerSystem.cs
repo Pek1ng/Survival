@@ -95,6 +95,7 @@ namespace Survival.Controller
 
             physicsWorldSingleton.CastRay(raycastInput, out Unity.Physics.RaycastHit hit);
             _inputData.ValueRW.HitPosition = hit.Position;
+         //   _inputData.ValueRW.HitEntity=hit.Entity;
 
             var target = hit.Position;
             target.y = 0;

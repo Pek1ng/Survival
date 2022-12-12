@@ -10,7 +10,10 @@ public partial struct FreezeRotationSystem : ISystem
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
-        
+        foreach (var physicsMass in SystemAPI.Query<RefRW<PhysicsMass>>().WithAll<PlayerTag>())
+        {
+            physicsMass.ValueRW.InverseInertia.xz = float2.zero;
+        }
     }
 
     [BurstCompile]

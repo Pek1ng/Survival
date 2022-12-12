@@ -1,7 +1,6 @@
-﻿using Unity.Burst;
+﻿using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
-using Unity.Physics;
 
 namespace Survival.Controller
 {
@@ -20,6 +19,7 @@ namespace Survival.Controller
         [GhostField(Quantization = 100)]
         public float2 Move;
 
+        [GhostField]
         public bool MouseClick;
     }
 }

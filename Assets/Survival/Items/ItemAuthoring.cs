@@ -8,7 +8,11 @@ namespace Survival.Items
     [Serializable]
     public struct ItemData : IComponentData
     {
-        public FixedString32Bytes ID;
+        public ItemCategory ItemCategory;
+
+        public ItemType ItemType;
+
+        public int Price;
 
         public int MaxStacks;
     }

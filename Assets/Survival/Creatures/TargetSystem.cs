@@ -39,7 +39,7 @@ namespace Survival.Creatures
     [BurstCompile]
     public readonly partial struct TargetPositionAspect : IAspect
     {
-        private readonly EnabledRefRW<HaveTartgetTag> _haveTartgetTag;
+        private readonly EnabledRefRW<TartgetTag> _TartgetTag;
         private readonly RefRW<Target> _targetPositionRW;
         private readonly TransformAspect _transformAspect;
         private readonly RefRO<MovementSpeed> _movementSpeedRO;
@@ -52,7 +52,7 @@ namespace Survival.Creatures
 
             if (distance < 0.1f)
             {
-                _haveTartgetTag.ValueRW = false;
+                _TartgetTag.ValueRW = false;
             }
             else
             {

@@ -1,5 +1,4 @@
-﻿using Unity.Entities;
-using Unity.Mathematics;
+﻿using Unity.Mathematics;
 using Unity.NetCode;
 
 namespace Survival.Controller
@@ -13,7 +12,7 @@ namespace Survival.Controller
         [GhostField(Quantization = 100)]
         public float3 RayEnd;
 
-        [GhostField(Quantization = 100)]
+        [GhostField(SendData =false)]
         public float3 HitPosition;
 
         [GhostField(Quantization = 100)]

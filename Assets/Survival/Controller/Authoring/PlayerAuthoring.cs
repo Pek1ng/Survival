@@ -20,8 +20,8 @@ namespace Survival.Controller
                 AddComponent(new MovementSpeed { Value = authoring.MovementSpeed });
 
                 AddComponent<Target>();
-                AddComponent<HaveTartgetTag>();
-                SetComponentEnabled<HaveTartgetTag>(GetEntity(), false);
+                AddComponent<TartgetTag>();
+                SetComponentEnabled<TartgetTag>(GetEntity(), false);
             }
         }
     }

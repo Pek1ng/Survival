@@ -16,6 +16,12 @@
             "ScriptingBackend": 1,
             "Il2CppCompilerConfiguration": 1,
             "UseIncrementalGC": false
+        },
+        {
+            "$type": "Unity.Build.Common.SceneList, Unity.Build",
+            "$version": 1,
+            "BuildCurrentScene": true,
+            "SceneInfos": []
         }
     ]
 }

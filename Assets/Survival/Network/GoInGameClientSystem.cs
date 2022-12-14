@@ -2,13 +2,17 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.NetCode;
-
+using Unity.Rendering;
+using Unity.Mathematics;
 
 namespace Survival.Nework
 {
-    using Unity.Collections;
-    using Unity.Entities;
-    using Unity.NetCode;
+
+    [MaterialProperty("_Color")]
+    public struct MyOwnColor : IComponentData
+    {
+        public float4 Value;
+    }
 
     public struct GoInGameRequest : IRpcCommand
     {
@@ -75,6 +79,7 @@ namespace Survival.Nework
         public void OnUpdate(ref SystemState state)
         {
             var prefab = SystemAPI.GetSingleton<CubeSpawner>().Cube;
+
             state.EntityManager.GetName(prefab, out var prefabName);
             var worldName = new FixedString32Bytes(state.WorldUnmanaged.Name);
 
@@ -90,9 +95,22 @@ namespace Survival.Nework
                 UnityEngine.Debug.Log($"'{worldName}' setting connection '{networkIdComponent.Value}' to in game, spawning a Ghost '{prefabName}' for them!");
 
                 var player = commandBuffer.Instantiate(prefab);
+
+                Random a = new Random(121);
+
+                commandBuffer.AddComponent(player, new MyOwnColor
+                {
+                    Value = new float4(
+                   math.cos(a.NextFloat(0, 1) + 1.0f),
+                   math.cos(a.NextFloat(0, 1) + 2.0f),
+                   math.cos(a.NextFloat(0, 1) + 3.0f),
+                   1.0f)
+                });
+
                 commandBuffer.SetComponent(player, new GhostOwnerComponent { NetworkId = networkIdComponent.Value });
 
-                           // Add the player to the linked entity group so it is destroyed automatically on disconnect
+
+                // Add the player to the linked entity group so it is destroyed automatically on disconnect
                 commandBuffer.AppendToBuffer(reqSrc.ValueRO.SourceConnection, new LinkedEntityGroup { Value = player });
                 commandBuffer.DestroyEntity(reqEntity);
             }

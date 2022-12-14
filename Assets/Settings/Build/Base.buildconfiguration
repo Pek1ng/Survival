@@ -22,10 +22,6 @@
                 {
                     "Scene": "GlobalObjectId_V1-1-99c9720ab356a0642a771bea13969a05-102900000-0",
                     "AutoLoad": true
-                },
-                {
-                    "Scene": "GlobalObjectId_V1-1-b369930046f923142b73dfc8d9cb1881-102900000-0",
-                    "AutoLoad": true
                 }
             ]
         }

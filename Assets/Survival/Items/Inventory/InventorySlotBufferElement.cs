@@ -2,7 +2,8 @@
 
 namespace Survival.Items.Inventory
 {
-    public struct InventoryItemBuffer : IBufferElementData
+    [InternalBufferCapacity(100)]
+    public struct InventorySlotBufferElement : IBufferElementData
     {
         /// <summary>
         /// 物体的实体

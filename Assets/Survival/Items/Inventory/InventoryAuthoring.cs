@@ -3,20 +3,21 @@ using UnityEngine;
 
 namespace Survival.Items.Inventory
 {
-    public struct Inventory : IComponentData
-    {
-        public int MaxSlots;
-    }
-
     public class InventoryAuthoring : MonoBehaviour
     {
+        [Range(10,100)]
         public int MaxSlots;
 
         public class InventoryBaker : Baker<InventoryAuthoring>
         {
             public override void Bake(InventoryAuthoring authoring)
             {
-                AddComponent(new Inventory { MaxSlots = authoring.MaxSlots });
+                var dynamicBuffer= AddBuffer<InventorySlotBufferElement>();
+
+                for (int i = 0; i < authoring.MaxSlots; i++)
+                {
+                    dynamicBuffer.Add(new InventorySlotBufferElement());
+                }
             }
         }
     }

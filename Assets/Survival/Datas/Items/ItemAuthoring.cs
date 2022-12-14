@@ -1,9 +1,8 @@
 ﻿using System;
-using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
 
-namespace Survival.Items
+namespace Survival.Datas.Items
 {
     [Serializable]
     public struct ItemData : IComponentData

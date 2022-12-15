@@ -1,4 +1,6 @@
-﻿using Unity.Entities;
+﻿using Survival.Datas.Items;
+using Unity.Collections;
+using Unity.Entities;
 using UnityEngine;
 
 namespace Survival.Datas.Inventory
@@ -7,6 +9,8 @@ namespace Survival.Datas.Inventory
     {
         [Range(10, 100)]
         public int MaxSlots;
+
+        public ItemDataSO ItemSO;
 
         public class InventoryBaker : Baker<InventoryAuthoring>
         {
@@ -18,6 +22,16 @@ namespace Survival.Datas.Inventory
                 {
                     dynamicBuffer.Add(new InventorySlotBufferElement());
                 }
+
+                BlobBuilder blobBuilder = new BlobBuilder(Allocator.Temp);
+                ref ItemData root = ref blobBuilder.ConstructRoot<ItemData>();
+
+                root = authoring.ItemSO.ItemData;
+                dynamicBuffer[0] = new InventorySlotBufferElement {
+                    Reference = blobBuilder.CreateBlobAssetReference<ItemData>(Allocator.Persistent),
+                    Count = 2
+                };
+                blobBuilder.Dispose();
             }
         }
     }

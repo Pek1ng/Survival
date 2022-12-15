@@ -8,21 +8,22 @@ namespace Survival.Datas.Items
     [Flags]
     public enum ItemType
     {
+        None = 0,
         /// <summary>
         /// 死亡不掉落
         /// </summary>
-        Binding = 0,
+        Binding = 1,
         /// <summary>
         /// 可以装备的
         /// </summary>
-        Equippable = 1,
+        Equippable = 2,
         /// <summary>
         /// 隐藏
         /// </summary>
-        Hidden = 2,
+        Hidden = 4,
         /// <summary>
         /// 可以使用
         /// </summary>
-        Usable = 4,
+        Usable = 8,
     }
 }

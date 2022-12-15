@@ -310,6 +310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxSlots: 10
+  ItemSO: {fileID: 11400000, guid: fc4330dcca4fb8a48936003accf4f7aa, type: 2}
 --- !u!114 &4418712337038182498
 MonoBehaviour:
   m_ObjectHideFlags: 0

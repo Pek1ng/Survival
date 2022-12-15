@@ -1,6 +1,6 @@
 ﻿using Unity.Entities;
 
-namespace Survival.Items.Inventory
+namespace Survival.Datas.Inventory
 {
     [InternalBufferCapacity(100)]
     public struct InventorySlotBufferElement : IBufferElementData

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 
-namespace Survival.Items
+namespace Survival.Datas.Items
 {
     /// <summary>
     /// 物品分类

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Survival.Items
+namespace Survival.Datas.Items
 {
     /// <summary>
     /// 物品分类
@@ -27,6 +27,6 @@ namespace Survival.Items
         /// <summary>
         /// 建筑
         /// </summary>
-        Building=8,
+        Building = 8,
     }
 }

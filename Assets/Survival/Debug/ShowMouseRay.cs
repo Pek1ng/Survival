@@ -3,7 +3,7 @@ using Unity.Entities;
 using Unity.Transforms;
 using UnityEngine;
 
-public class PlayerControllerDebug : MonoBehaviour
+public class ShowMouseRay : MonoBehaviour
 {
     public World ServerWorld;
 
@@ -17,7 +17,6 @@ public class PlayerControllerDebug : MonoBehaviour
             }
         }
     }
-
 
     private void OnDrawGizmosSelected()
     {

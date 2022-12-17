@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+﻿using Survival.Datas.Items;
+using Unity.Entities;
 
 namespace Survival.Datas.Inventory
 {
@@ -8,7 +9,7 @@ namespace Survival.Datas.Inventory
         /// <summary>
         /// 物体的实体
         /// </summary>
-        public Entity ItemEntity;
+        public BlobAssetReference<ItemData> Reference;
 
         /// <summary>
         /// 当前物品的数量

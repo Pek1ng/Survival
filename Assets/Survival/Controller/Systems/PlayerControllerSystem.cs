@@ -5,6 +5,7 @@ using Unity.Entities;
 using Unity.Physics;
 using Unity.Physics.Authoring;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace Survival.Controller
 {
@@ -44,12 +45,12 @@ namespace Survival.Controller
             {
                 DeltaTime = deltaTime,
                 PhysicsWorldSingleton = physicsWorldSingleton,
-                CollisionFilter= _collisionFilter
+                CollisionFilter = _collisionFilter
             }.ScheduleParallel(state.Dependency);
 
             jobHandle.Complete();
 
-            foreach ((var target,var inputData, var entity) in SystemAPI.Query<RefRW<Target>,InputData>().WithEntityAccess())
+            foreach ((var target, var inputData, var entity) in SystemAPI.Query<RefRW<Target>, InputData>().WithEntityAccess())
             {
                 if (inputData.Move.x != 0 || inputData.Move.y != 0)
                 {
@@ -96,7 +97,7 @@ namespace Survival.Controller
             var target = hit.Position;
 
             _inputData.ValueRW.HitPosition = target;
-            _target.ValueRW.Entity=hit.Entity;
+            _target.ValueRW.Entity = hit.Entity;
 
             target.y = 0;
 
@@ -115,7 +116,7 @@ namespace Survival.Controller
         public void Execute(PlayerControllerAspect aspect)
         {
             aspect.Move(DeltaTime);
-            aspect.Look(CollisionFilter,PhysicsWorldSingleton);
+            aspect.Look(CollisionFilter, PhysicsWorldSingleton);
         }
     }
 }

@@ -23,15 +23,12 @@ namespace Survival.Datas.Inventory
                     dynamicBuffer.Add(new InventorySlotBufferElement());
                 }
 
-                BlobBuilder blobBuilder = new BlobBuilder(Allocator.Temp);
-                ref ItemData root = ref blobBuilder.ConstructRoot<ItemData>();
+                //BlobBuilder blobBuilder = new BlobBuilder(Allocator.Temp);
+                //ref ItemData root = ref blobBuilder.ConstructRoot<ItemData>();
 
-                root = authoring.ItemSO.ItemData;
-                dynamicBuffer[0] = new InventorySlotBufferElement {
-                    Reference = blobBuilder.CreateBlobAssetReference<ItemData>(Allocator.Persistent),
-                    Count = 2
-                };
-                blobBuilder.Dispose();
+                //root = authoring.ItemSO.ItemData;
+
+                //blobBuilder.Dispose();
             }
         }
     }

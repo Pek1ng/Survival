@@ -1,4 +1,5 @@
 ﻿using Survival.Datas.Items;
+using Unity.Collections;
 using Unity.Entities;
 
 namespace Survival.Datas.Inventory
@@ -6,10 +7,7 @@ namespace Survival.Datas.Inventory
     [InternalBufferCapacity(100)]
     public struct InventorySlotBufferElement : IBufferElementData
     {
-        /// <summary>
-        /// 物体的实体
-        /// </summary>
-        public BlobAssetReference<ItemData> Reference;
+        public FixedString32Bytes ID;
 
         /// <summary>
         /// 当前物品的数量

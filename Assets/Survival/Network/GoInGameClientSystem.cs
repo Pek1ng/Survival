@@ -2,13 +2,10 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.NetCode;
-using Unity.Rendering;
 using Unity.Mathematics;
 using Unity.Transforms;
-using System.Numerics;
-using Survival.Creatures;
-using UnityEngine;
 using System;
+using Random = Unity.Mathematics.Random;
 
 namespace Survival.Nework
 {
@@ -96,8 +93,8 @@ namespace Survival.Nework
                 var player = commandBuffer.Instantiate(prefab);
 
 
-                Unity.Mathematics.Random random = Unity.Mathematics.Random.CreateFromIndex((uint)Environment.TickCount);
-                commandBuffer.SetComponent(player, new LocalTransform { Position = new float3(random.NextFloat(0f,5f), 0f, random.NextFloat(0,5f)), Rotation = quaternion.identity, Scale = 1f });
+                Random random = new Random(1222);
+                commandBuffer.SetComponent(player, new LocalTransform { Position = new float3(random.NextFloat(0f, 5f), 0f, random.NextFloat(0, 5f)), Rotation = quaternion.identity, Scale = 1f });
                 commandBuffer.SetComponent(player, new GhostOwnerComponent { NetworkId = networkIdComponent.Value });
 
                 // Add the player to the linked entity group so it is destroyed automatically on disconnect

@@ -5,17 +5,23 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Physics;
-using UnityEngine;
 
 namespace Survival.Physics
 {
     [BurstCompile]
     public partial struct PickUpItemSystem : ISystem
     {
+
+        private ComponentLookup<PlayerTag> _playerLookup;
+        private ComponentLookup<StoneTag> _stoneLookup;
+        private BufferLookup<InventorySlotBufferElement> _inventorySlotLookup;
+
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
-
+            _playerLookup = state.GetComponentLookup<PlayerTag>(true);
+            _stoneLookup = state.GetComponentLookup<StoneTag>(true);
+            _inventorySlotLookup = state.GetBufferLookup<InventorySlotBufferElement>();
         }
 
         [BurstCompile]
@@ -29,19 +35,23 @@ namespace Survival.Physics
         {
             var simulationSingleton = SystemAPI.GetSingleton<SimulationSingleton>();
             var ecb = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
-            var be = state.GetBufferLookup<InventorySlotBufferElement>();
+
+            _playerLookup.Update(ref state);
+            _stoneLookup.Update(ref state);
+            _inventorySlotLookup.Update(ref state);
 
             var jobHandle = new CollisionJob
             {
-                PlayerLookup = state.GetComponentLookup<PlayerTag>(true),
-                StoneLookup = state.GetComponentLookup<StoneTag>(true),
-                BufferLookup = be,
+                PlayerLookup = _playerLookup,
+                StoneLookup = _stoneLookup,
+                BufferLookup = _inventorySlotLookup,
                 CommandBuffer = ecb,
             }.Schedule(simulationSingleton, state.Dependency);
 
             jobHandle.Complete();
         }
 
+        [BurstCompile]
         public partial struct CollisionJob : ICollisionEventsJob
         {
             [ReadOnly] public ComponentLookup<PlayerTag> PlayerLookup;
@@ -49,6 +59,7 @@ namespace Survival.Physics
             public BufferLookup<InventorySlotBufferElement> BufferLookup;
             public EntityCommandBuffer CommandBuffer;
 
+            [BurstCompile]
             public void Execute(CollisionEvent collisionEvent)
             {
                 if (PlayerLookup.HasComponent(collisionEvent.EntityA))
@@ -57,8 +68,7 @@ namespace Survival.Physics
                     {
                         CommandBuffer.DestroyEntity(collisionEvent.EntityB);
                         BufferLookup.TryGetBuffer(collisionEvent.EntityA, out var dy);
-
-                        dy.ElementAt(0).Count ++;
+                        dy.ElementAt(0).Count++;
                     }
                 }
             }

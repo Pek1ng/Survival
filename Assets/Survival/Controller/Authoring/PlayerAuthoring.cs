@@ -22,6 +22,7 @@ namespace Survival.Controller
                 AddComponent<Target>();
                 AddComponent<TartgetTag>();
                 SetComponentEnabled<TartgetTag>(GetEntity(), false);
+
             }
         }
     }

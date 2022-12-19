@@ -5,6 +5,10 @@ using Unity.NetCode;
 using Unity.Rendering;
 using Unity.Mathematics;
 using Unity.Transforms;
+using System.Numerics;
+using Survival.Creatures;
+using UnityEngine;
+using System;
 
 namespace Survival.Nework
 {
@@ -88,9 +92,13 @@ namespace Survival.Nework
                 UnityEngine.Debug.Log($"'{worldName}' setting connection '{networkIdComponent.Value}' to in game");
                 UnityEngine.Debug.Log($"'{worldName}' setting connection '{networkIdComponent.Value}' to in game, spawning a Ghost '{prefabName}' for them!");
 
-                var player = commandBuffer.Instantiate(prefab);
-                commandBuffer.SetComponent(player, new GhostOwnerComponent { NetworkId = networkIdComponent.Value });
 
+                var player = commandBuffer.Instantiate(prefab);
+
+
+                Unity.Mathematics.Random random = Unity.Mathematics.Random.CreateFromIndex((uint)Environment.TickCount);
+                commandBuffer.SetComponent(player, new LocalTransform { Position = new float3(random.NextFloat(0f,5f), 0f, random.NextFloat(0,5f)), Rotation = quaternion.identity, Scale = 1f });
+                commandBuffer.SetComponent(player, new GhostOwnerComponent { NetworkId = networkIdComponent.Value });
 
                 // Add the player to the linked entity group so it is destroyed automatically on disconnect
                 commandBuffer.AppendToBuffer(reqSrc.ValueRO.SourceConnection, new LinkedEntityGroup { Value = player });

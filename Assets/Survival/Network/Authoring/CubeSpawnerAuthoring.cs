@@ -1,0 +1,26 @@
+using Unity.Entities;
+using UnityEngine;
+
+namespace Survival.Nework
+{
+    public struct CubeSpawner : IComponentData
+    {
+        public Entity Cube;
+    }
+
+    [DisallowMultipleComponent]
+    public class CubeSpawnerAuthoring : MonoBehaviour
+    {
+        public GameObject Cube;
+
+        class NetCubeSpawnerBaker : Baker<CubeSpawnerAuthoring>
+        {
+            public override void Bake(CubeSpawnerAuthoring authoring)
+            {
+                CubeSpawner component = default;
+                component.Cube = GetEntity(authoring.Cube);
+                AddComponent(component);
+            }
+        }
+    }
+}

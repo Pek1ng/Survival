@@ -8,10 +8,13 @@ using Unity.Physics;
 
 namespace Survival.Physics
 {
+    /// <summary>
+    /// 捡物品系统
+    /// </summary>
     [BurstCompile]
+    [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
     public partial struct PickUpItemSystem : ISystem
     {
-
         private ComponentLookup<PlayerTag> _playerLookup;
         private ComponentLookup<StoneTag> _stoneLookup;
         private BufferLookup<InventorySlotBufferElement> _inventorySlotLookup;
@@ -36,7 +39,7 @@ namespace Survival.Physics
             var simulationSingleton = SystemAPI.GetSingleton<SimulationSingleton>();
             var ecb = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
 
-            _playerLookup.Update(ref state);
+            _playerLookup.Update(ref state);  //更新数据
             _stoneLookup.Update(ref state);
             _inventorySlotLookup.Update(ref state);
 
@@ -62,13 +65,13 @@ namespace Survival.Physics
             [BurstCompile]
             public void Execute(CollisionEvent collisionEvent)
             {
-                if (PlayerLookup.HasComponent(collisionEvent.EntityA))
+                if (PlayerLookup.HasComponent(collisionEvent.EntityA)) 
                 {
                     if (StoneLookup.HasComponent(collisionEvent.EntityB))
                     {
                         CommandBuffer.DestroyEntity(collisionEvent.EntityB);
-                        BufferLookup.TryGetBuffer(collisionEvent.EntityA, out var dy);
-                        dy.ElementAt(0).Count++;
+                        BufferLookup.TryGetBuffer(collisionEvent.EntityA, out var bufferData);
+                        bufferData.ElementAt(0).Count++;  //当捡到物品，计数增加
                     }
                 }
             }

@@ -58,7 +58,7 @@ namespace Survival.Controller
 
         public void OnSwitchTabBar(InputAction.CallbackContext context)
         {
-            Debug.Log(context.ReadValue<float>());
+            UnityEngine.Debug.Log(context.ReadValue<float>());
         }
     }
 }

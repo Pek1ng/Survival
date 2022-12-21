@@ -56,7 +56,7 @@ namespace Survival.Nework
                 var player = commandBuffer.Instantiate(prefab);
                 commandBuffer.SetComponent(player, new GhostOwnerComponent { NetworkId = networkIdComponent.Value });
 
-                // Add the player to the linked entity group so it is destroyed automatically on disconnect
+                // 将玩家添加到链接的实体组中，这样在断开连接时就会自动销毁。
                 commandBuffer.AppendToBuffer(reqSrc.ValueRO.SourceConnection, new LinkedEntityGroup { Value = player });
                 commandBuffer.DestroyEntity(reqEntity);
             }

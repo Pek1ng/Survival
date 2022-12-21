@@ -3,41 +3,44 @@ using Unity.Entities;
 using Unity.Transforms;
 using UnityEngine;
 
-public class ShowMouseRay : MonoBehaviour
+namespace Survival.Debug
 {
-    public World ServerWorld;
-
-    private void Awake()
+    public class ShowMouseRay : MonoBehaviour
     {
-        foreach (var item in World.All)
+        public World ServerWorld;
+
+        private void Awake()
         {
-            if (item.Name == "ServerWorld")
+            foreach (var item in World.All)
             {
-                ServerWorld = item;
+                if (item.Name == "ServerWorld")
+                {
+                    ServerWorld = item;
+                }
             }
         }
-    }
 
-    private void OnDrawGizmosSelected()
-    {
-        if (ServerWorld==null)
+        private void OnDrawGizmosSelected()
         {
-            return;
+            if (ServerWorld == null)
+            {
+                return;
+            }
+
+            var query = ServerWorld.EntityManager.CreateEntityQuery(typeof(PlayerTag));
+            var array = query.ToEntityArray(Unity.Collections.Allocator.Temp);
+
+            if (array.Length <= 0)
+            {
+                return;
+            }
+
+            Entity entity = array[0];
+            var input = ServerWorld.EntityManager.GetComponentData<InputData>(entity);
+            var transform = ServerWorld.EntityManager.GetComponentData<LocalTransform>(entity);
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.Position, input.HitPosition);
         }
-
-        var query = ServerWorld.EntityManager.CreateEntityQuery(typeof(PlayerTag));
-        var array = query.ToEntityArray(Unity.Collections.Allocator.Temp);
-
-        if (array.Length <= 0)
-        {
-            return;
-        }
-
-        Entity entity = array[0];
-        var input = ServerWorld.EntityManager.GetComponentData<InputData>(entity);
-        var transform = ServerWorld.EntityManager.GetComponentData<LocalTransform>(entity);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.Position,input.HitPosition);
     }
 }

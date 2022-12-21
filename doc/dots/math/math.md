@@ -60,6 +60,7 @@
 | floorlog2 | 计算X以2为底对数四舍五入的结构 |
 | sign | 返回双精度的符号小于0则为-1，等于0为0，大于零为1 |
 | step | 返回一个阶梯函数的结果，当x>=y时，结果为1.0f，否则为0.0f |
+| faceforward | 如果两个向量i和ng指向同一方向，有条件地翻转一个向量n。如果dot(i, ng)< 0，返回n，否则返回-n |
 
 ### 向量 
 
@@ -69,6 +70,8 @@
 | cross | 返回叉乘 |
 | project | 返回x在y上的向量投影 |
 | projectsafe | 返回x在y上的向量投影安全版本 |
+| refract | 返回折射向量 |
+| reflect | 返回 r=i-2.0*dot(i,n)*n,意义是求给定入射向量和法向量求反射向量 |
 
 ### 矩阵
 
@@ -119,7 +122,6 @@
 | exp | 返回X以e为底的指数 |	
 | exp10 | 返回X以10为底的是指数 |
 | exp2 | 返回X以10为底的是指数 |
-| faceforward | 如果两个向量i和ng指向同一方向，有条件地翻转一个向量n。如果dot(i, ng)< 0，返回n，否则返回-n |
 | fmod | 返回双进度余数 |
 | hash | 返回哈希值 |
 | hashwide | 返回多元素哈希值 |
@@ -138,8 +140,6 @@
 | pow |	返回x的y次方 |
 | radians| 将角度转换为弧度 |
 | rcp | 返回倒数 |
-| reflect | 返回 r = i - 2.0 * dot(i, n) * n |
-| refract | 返回折射向量 |
 | remap | 从范围[a,b] 到[c,d]映射 |
 | RigidTransform | 返回`float3x3`表示旋转和`float3`表示平移的`RigidTransform`|
 | rotate | 返回四元数旋转的结果 |

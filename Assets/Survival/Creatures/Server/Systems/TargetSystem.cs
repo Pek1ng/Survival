@@ -52,9 +52,9 @@ namespace Survival.Creatures
 
             //var SquareOfDistance
 
-            var distance = math.distance(_targetPositionRW.ValueRO.Position.xz, _transformAspect.WorldPosition.xz);
+            var distancesq = math.distancesq(_targetPositionRW.ValueRO.Position.xz, _transformAspect.WorldPosition.xz);
 
-            if (distance < 0.1f)
+            if (distancesq < 0.01f)
             {
                 _TartgetTag.ValueRW = false;
             }

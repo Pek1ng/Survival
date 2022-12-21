@@ -2,8 +2,6 @@
 using Unity.Burst;
 using Unity.Collections;
 using Unity.NetCode;
-using Unity.Mathematics;
-using Unity.Transforms;
 
 namespace Survival.Nework
 {

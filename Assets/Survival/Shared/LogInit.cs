@@ -1,4 +1,4 @@
-using Survival.Shared;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class LogInit : MonoBehaviour
@@ -6,12 +6,8 @@ public class LogInit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Log.Initialize();
-    }
+        //Log.Initialize();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log(math.exp10(2));
     }
 }

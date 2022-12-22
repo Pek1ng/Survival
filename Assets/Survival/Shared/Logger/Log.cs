@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using UnityEngine;
 
-namespace Survival.Shared
+namespace Survival.Logger
 {
     /// <summary>
     /// 用来管理日志的组件

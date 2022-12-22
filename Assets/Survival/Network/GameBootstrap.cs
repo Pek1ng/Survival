@@ -8,9 +8,24 @@ namespace Survival.Nework
     {
         public override bool Initialize(string defaultWorldName)
         {
-            AutoConnectPort = 7979;
+#if UNITY_EDITOR       //在编辑器模式下能直接构建世界
+            var sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            bool isWorld = sceneName == "World";
 
-            return base.Initialize(defaultWorldName);
+            if (isWorld)
+            {
+                AutoConnectPort = 7979;
+                CreateDefaultClientServerWorlds();
+            }
+            else
+            {
+                CreateLocalWorld(defaultWorldName);
+            }
+#else
+            AutoConnectPort = 0; 
+            CreateLocalWorld(defaultWorldName);
+#endif
+            return true;
         }
     }
 }

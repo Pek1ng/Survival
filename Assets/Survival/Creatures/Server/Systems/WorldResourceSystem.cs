@@ -15,16 +15,19 @@ public partial struct WorldResourceSystem : ISystem
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
+        //用于查询当前Stone的数量
         EntityQueryBuilder queryBuilder = new EntityQueryBuilder(Allocator.Temp);
-        queryBuilder.WithAll<StoneTag>();
-
+        queryBuilder.WithAll<StoneTag>();  
         _stoneQuery = state.EntityManager.CreateEntityQuery(queryBuilder);
+
+        state.RequireForUpdate<WorldResourceSingleton>();  //防止拿不到单例
+        state.RequireForUpdate<RandomSingleton>();
     }
 
     [BurstCompile]
     public void OnDestroy(ref SystemState state)
     {
-
+        _stoneQuery.Dispose();
     }
 
     [BurstCompile]
@@ -34,11 +37,11 @@ public partial struct WorldResourceSystem : ISystem
 
         if (stoneArray.Length < 10)
         {
-            var reource = SystemAPI.GetSingleton<WorldResource>();
+            var prefab = SystemAPI.GetSingleton<WorldResourceSingleton>().Prefab;
             var commandBuffer = SystemAPI.GetSingleton<BeginSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(state.WorldUnmanaged);
             var randomRW = SystemAPI.GetSingletonRW<RandomSingleton>();
 
-            var entity = commandBuffer.Instantiate(reource.Prefabs);
+            var entity = commandBuffer.Instantiate(prefab);
             var position = float3.zero;
             position.y = -0.75f;
             position.xz = randomRW.ValueRW.Random.NextFloat2(-50f, 50f);

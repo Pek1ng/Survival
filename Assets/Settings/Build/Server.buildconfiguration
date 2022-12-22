@@ -3,10 +3,6 @@
     "Dependencies": [],
     "Components": [
         {
-            "$type": "NetCodeConversionSettings, Unity.NetCode.Authoring.Hybrid",
-            "Target": 1
-        },
-        {
             "$type": "Unity.Build.Classic.EnableHeadlessMode, Unity.Build.Classic"
         },
         {
@@ -14,6 +10,14 @@
             "Defines": [
                 "BUILD_SERVER"
             ]
+        },
+        {
+            "$type": "NetCodeConversionSettings, Unity.NetCode.Authoring.Hybrid",
+            "Target": 1
+        },
+        {
+            "$type": "Unity.Entities.Conversion.ConversionSystemFilterSettings, Unity.Entities.Hybrid",
+            "ExcludedConversionSystemAssemblies": []
         }
     ]
 }

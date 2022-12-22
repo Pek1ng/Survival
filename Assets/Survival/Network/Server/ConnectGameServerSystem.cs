@@ -38,7 +38,7 @@ namespace Survival.Nework
             var prefab = SystemAPI.GetSingleton<CubeSpawner>().Cube;
 
             state.EntityManager.GetName(prefab, out var prefabName);
-            var worldName = new FixedString32Bytes(state.WorldUnmanaged.Name);
+            var worldName = state.WorldUnmanaged.Name;
 
             var commandBuffer = new EntityCommandBuffer(Allocator.Temp);
             networkIdFromEntity.Update(ref state);
@@ -48,7 +48,6 @@ namespace Survival.Nework
                 commandBuffer.AddComponent<NetworkStreamInGame>(reqSrc.ValueRO.SourceConnection);
                 var networkIdComponent = networkIdFromEntity[reqSrc.ValueRO.SourceConnection];
 
-                UnityEngine.Debug.Log($"'{worldName}' setting connection '{networkIdComponent.Value}' to in game");
                 UnityEngine.Debug.Log($"'{worldName}' setting connection '{networkIdComponent.Value}' to in game, spawning a Ghost '{prefabName}' for them!");
 
                 var player = commandBuffer.Instantiate(prefab);

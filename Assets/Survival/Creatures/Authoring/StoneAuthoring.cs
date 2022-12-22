@@ -8,7 +8,7 @@ namespace Survival.Creatures
     [DisallowMultipleComponent]
     public class StoneAuthoring : MonoBehaviour
     {
-        public class StoneBaker : Baker<StoneAuthoring>
+        public class StoneAuthoringBaker : Baker<StoneAuthoring>
         {
             public override void Bake(StoneAuthoring authoring)
             {

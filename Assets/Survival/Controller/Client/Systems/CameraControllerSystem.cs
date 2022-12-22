@@ -12,12 +12,10 @@ namespace Survival.Controller
     [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation)]
     public partial class CameraControllerSystem : SystemBase
     {
-        Transform _cameraTransform;
         float3 _cameraOffset;
 
         protected override void OnCreate()
         {
-            _cameraTransform = Camera.main.transform;
             _cameraOffset = new float3(0, 6f, -8f);
 
             RequireForUpdate<GhostOwnerComponent>();
@@ -36,7 +34,7 @@ namespace Survival.Controller
                         {
                             return;
                         }
-                        _cameraTransform.position = transformAspect.LocalPosition + _cameraOffset; //计算相机位置
+                        Camera.main.transform.position = transformAspect.LocalPosition + _cameraOffset; //计算相机位置
                     }).Run();
         }
     }

@@ -39,7 +39,6 @@ namespace Survival.Controller
                     inputData.MouseClick = mouseClick;
                 }).ScheduleParallel();
         }
-
         public void OnMove(InputAction.CallbackContext context)
         {
             _move = context.ReadValue<Vector2>();

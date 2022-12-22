@@ -9,7 +9,7 @@
             "$type": "Unity.Build.Classic.ClassicBuildProfile, Unity.Build.Classic",
             "$version": 1,
             "Platform": "StandaloneWindows64",
-            "Configuration": 2
+            "Configuration": 3
         },
         {
             "$type": "Unity.Build.Classic.ClassicScriptingSettings, Unity.Build.Classic",
@@ -18,10 +18,8 @@
             "UseIncrementalGC": false
         },
         {
-            "$type": "Unity.Build.Common.SceneList, Unity.Build",
-            "$version": 1,
-            "BuildCurrentScene": true,
-            "SceneInfos": []
+            "$type": "Unity.Build.Common.OutputBuildDirectory, Unity.Build",
+            "OutputDirectory": "C:\\Users\\Administrator\\Downloads\\build\\Win_ClientServer"
         }
     ]
 }

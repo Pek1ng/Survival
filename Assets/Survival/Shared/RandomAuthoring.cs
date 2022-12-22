@@ -1,8 +1,10 @@
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.NetCode;
 
 namespace Survival.Shared
 {
+    [GhostComponent(PrefabType = GhostPrefabType.Server)]
     public struct RandomSingleton : IComponentData
     {
         public Random Random;

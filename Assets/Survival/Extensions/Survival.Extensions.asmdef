@@ -1,6 +1,6 @@
 {
-    "name": "Survival.Editor",
-    "rootNamespace": "Survival.Editor",
+    "name": "Survival.Extensions",
+    "rootNamespace": "Survival.Extensions",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

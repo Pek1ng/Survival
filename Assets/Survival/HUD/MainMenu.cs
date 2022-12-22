@@ -1,3 +1,4 @@
+using Survival.Extensions;
 using System.Net;
 using Unity.Entities;
 using Unity.NetCode;
@@ -8,6 +9,8 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public ushort NetworkPort = 7979;
+
+    public Optional<int> Key;
 
     public void StartHost()
     {

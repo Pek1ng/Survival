@@ -1,6 +1,6 @@
 {
-    "name": "Survival.UnityEditor",
-    "rootNamespace": "Survival.UnityEditor",
+    "name": "Survival.Editor",
+    "rootNamespace": "Survival.Editor",
     "references": [
         "GUID:759b8dcc7705c034cbbcd90dedc8cd95"
     ],

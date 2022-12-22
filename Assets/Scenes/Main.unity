@@ -1193,3 +1193,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkPort: 7979
+  Key:
+    Enable: 0
+    Value: 0

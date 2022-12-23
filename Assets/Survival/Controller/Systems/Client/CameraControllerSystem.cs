@@ -23,17 +23,11 @@ namespace Survival.Controller
 
         protected override void OnUpdate()
         {
-            var myConnection = SystemAPI.GetSingleton<NetworkIdComponent>().Value;
-
             Entities
                     .WithoutBurst()
                     .WithAll<PlayerTag>()
                     .ForEach((in TransformAspect transformAspect, in GhostOwnerComponent owner) =>
                     {
-                        if (owner.NetworkId != myConnection)
-                        {
-                            return;
-                        }
                         Camera.main.transform.position = transformAspect.LocalPosition + _cameraOffset; //计算相机位置
                     }).Run();
         }

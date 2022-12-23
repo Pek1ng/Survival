@@ -7,6 +7,5 @@
 
 
 ## 项目跟踪
-* [遇到的坑](doc/problem.md)
 * [目标](doc/goals.md)
 * [BUG](doc/bugs.md)

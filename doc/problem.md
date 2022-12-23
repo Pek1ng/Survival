@@ -1,1 +1,0 @@
-* `SystemBase.OnCreate()` 拿不到`Camera`,在编辑器运行没问题，构建后报错。

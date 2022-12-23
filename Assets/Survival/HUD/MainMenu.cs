@@ -1,3 +1,4 @@
+using Survival.Nework;
 using System.Collections.Generic;
 using Unity.Entities;
 using Unity.NetCode;
@@ -7,11 +8,11 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public ushort NetworkPort = 7979;
+    public ushort NetworkPort;
 
     private void Start()
     {
-
+        NetworkPort = GameBootstrap.NetworkPort;
     }
 
     public void StartHost()
@@ -40,7 +41,7 @@ public class MainMenu : MonoBehaviour
 
         SceneManager.LoadSceneAsync("World");
 
-        NetworkEndpoint ep = NetworkEndpoint.Parse("localhost", NetworkPort);
+        NetworkEndpoint ep = NetworkEndpoint.Parse("127.0.0.1", NetworkPort);
         {
             using var drvQuery = client.EntityManager.CreateEntityQuery(ComponentType.ReadWrite<NetworkStreamDriver>());
             drvQuery.GetSingletonRW<NetworkStreamDriver>().ValueRW.Connect(client.EntityManager, ep);

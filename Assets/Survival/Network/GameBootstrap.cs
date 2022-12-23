@@ -6,6 +6,8 @@ namespace Survival.Nework
     [Preserve] //防止被裁剪
     public class GameBootstrap : ClientServerBootstrap
     {
+        public static ushort NetworkPort = 7979;
+
         public override bool Initialize(string defaultWorldName)
         {
 #if UNITY_EDITOR       //在编辑器模式下能直接构建世界
@@ -14,15 +16,15 @@ namespace Survival.Nework
 
             if (isWorld)
             {
-                AutoConnectPort = 7979;
+                AutoConnectPort = NetworkPort;
                 CreateDefaultClientServerWorlds();
             }
             else
             {
+                AutoConnectPort = 0;
                 CreateLocalWorld(defaultWorldName);
             }
 #else
-            AutoConnectPort = 0; 
             CreateLocalWorld(defaultWorldName);
 #endif
             return true;

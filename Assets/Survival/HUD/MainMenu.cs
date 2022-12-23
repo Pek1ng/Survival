@@ -1,5 +1,4 @@
-using Survival.Extensions;
-using System.Net;
+using System.Collections.Generic;
 using Unity.Entities;
 using Unity.NetCode;
 using Unity.Networking.Transport;
@@ -10,7 +9,10 @@ public class MainMenu : MonoBehaviour
 {
     public ushort NetworkPort = 7979;
 
-    public Optional<int> Key;
+    private void Start()
+    {
+
+    }
 
     public void StartHost()
     {

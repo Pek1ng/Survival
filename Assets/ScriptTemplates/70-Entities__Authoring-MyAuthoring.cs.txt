@@ -1,0 +1,16 @@
+using Unity.Entities;
+using UnityEngine;
+
+#ROOTNAMESPACEBEGIN#
+    [DisallowMultipleComponent]
+    public partial class #SCRIPTNAME# : MonoBehaviour
+    {
+        private class #SCRIPTNAME#Baker : Baker<#SCRIPTNAME#>
+        {
+            public override void Bake(#SCRIPTNAME# authoring)
+            {
+                Entity e = GetEntity(authoring, TransformUsageFlags.None);
+            }
+        }
+    }
+#ROOTNAMESPACEEND#

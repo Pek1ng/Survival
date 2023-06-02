@@ -1,0 +1,10 @@
+using Unity.Burst;
+using Unity.Entities;
+
+#ROOTNAMESPACEBEGIN#
+[BurstCompile]
+public readonly partial struct #SCRIPTNAME# : IAspect
+{
+    
+}
+#ROOTNAMESPACEEND#

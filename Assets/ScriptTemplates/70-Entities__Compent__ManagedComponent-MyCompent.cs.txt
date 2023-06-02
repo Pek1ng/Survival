@@ -1,0 +1,17 @@
+using System;
+using Unity.Entities;
+
+#ROOTNAMESPACEBEGIN#
+public class #SCRIPTNAME# : IComponentData, IDisposable, ICloneable
+{
+    public void Dispose()
+    {
+        
+    }
+
+    public object Clone()
+    {
+        return new #SCRIPTNAME# { };
+    }
+}
+#ROOTNAMESPACEEND#

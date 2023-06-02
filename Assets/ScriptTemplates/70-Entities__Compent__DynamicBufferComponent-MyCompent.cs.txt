@@ -1,0 +1,9 @@
+using Unity.Entities;
+
+#ROOTNAMESPACEBEGIN#
+[InternalBufferCapacity(16)]
+public struct #SCRIPTNAME# : IBufferElementData
+{
+    public int Value;
+}
+#ROOTNAMESPACEEND#

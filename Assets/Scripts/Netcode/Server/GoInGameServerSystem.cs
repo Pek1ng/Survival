@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace Survival.Netcode
 {
-    // When server receives go in game request, go in game and delete request
     [BurstCompile]
     [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
     public partial struct GoInGameServerSystem : ISystem
@@ -16,6 +15,8 @@ namespace Survival.Netcode
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
+            state.RequireForUpdate<PlayerSpawner>();
+
             var builder = new EntityQueryBuilder(Allocator.Temp)
                 .WithAll<GoInGameRequest>()
                 .WithAll<ReceiveRpcCommandRequest>();
@@ -26,7 +27,9 @@ namespace Survival.Netcode
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            var worldName = state.WorldUnmanaged.Name;
+            var prefab = SystemAPI.GetSingleton<PlayerSpawner>().Prefab;
+            state.EntityManager.GetName(prefab, out var prefabName);
+            var worldName = new FixedString32Bytes(state.WorldUnmanaged.Name);
 
             var commandBuffer = new EntityCommandBuffer(Allocator.Temp);
             networkIdFromEntity.Update(ref state);
@@ -36,8 +39,12 @@ namespace Survival.Netcode
                 commandBuffer.AddComponent<NetworkStreamInGame>(reqSrc.ValueRO.SourceConnection);
                 var networkId = networkIdFromEntity[reqSrc.ValueRO.SourceConnection];
 
-                Debug.Log($"'{worldName}' setting connection '{networkId.Value}' to in game");
+                Debug.Log($"'{worldName}' setting connection '{networkId.Value}' to in game, spawning a Ghost '{prefabName}' for them!");
 
+                var player = commandBuffer.Instantiate(prefab);
+                commandBuffer.SetComponent(player, new GhostOwner { NetworkId = networkId.Value });
+
+                commandBuffer.AppendToBuffer(reqSrc.ValueRO.SourceConnection, new LinkedEntityGroup { Value = player });
                 commandBuffer.DestroyEntity(reqEntity);
             }
             commandBuffer.Playback(state.EntityManager);

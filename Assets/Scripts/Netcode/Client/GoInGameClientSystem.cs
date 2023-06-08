@@ -5,7 +5,6 @@ using Unity.NetCode;
 
 namespace Survival.Netcode
 {
-    // When client has a connection with network id, go in game and tell server to also go in game
     [BurstCompile]
     [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation | WorldSystemFilterFlags.ThinClientSimulation)]
     public partial struct GoInGameClientSystem : ISystem
@@ -13,6 +12,8 @@ namespace Survival.Netcode
         [BurstCompile]
         public void OnCreate(ref SystemState state)
         {
+            state.RequireForUpdate<PlayerSpawner>();
+
             var builder = new EntityQueryBuilder(Allocator.Temp)
                 .WithAll<NetworkId>()
                 .WithNone<NetworkStreamInGame>();

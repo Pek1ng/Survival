@@ -5,7 +5,7 @@ using UnityEngine;
     [DisallowMultipleComponent]
     public partial class #SCRIPTNAME# : MonoBehaviour
     {
-        private class #SCRIPTNAME#Baker : Baker<#SCRIPTNAME#>
+        private class Baking : Baker<#SCRIPTNAME#>
         {
             public override void Bake(#SCRIPTNAME# authoring)
             {

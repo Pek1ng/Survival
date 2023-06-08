@@ -14,8 +14,8 @@ namespace Survival.Netcode
         {
             public override void Bake(PlayerAuthoring authoring)
             {
-                Entity e = GetEntity(authoring, TransformUsageFlags.Dynamic);
-                AddComponent<IComponentData>(e);
+                Entity e = GetEntity(authoring,TransformUsageFlags.None);
+                AddComponent<Player>(e);
             }
         }
     }

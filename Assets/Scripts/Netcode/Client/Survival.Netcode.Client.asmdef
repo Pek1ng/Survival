@@ -2,6 +2,7 @@
     "name": "Survival.Netcode.Client",
     "rootNamespace": "Survival.Netcode",
     "references": [
+        "GUID:ba98afc3935037247be0f3404c250a4f",
         "GUID:0a5f6dda4a9ba3f4a80e1a0a4035f7be",
         "GUID:2665a8d13d1b3f18800f46e256720795",
         "GUID:e0cd26848372d4e5c891c569017e11f1",

@@ -1,8 +1,8 @@
 ::https://docs.unity3d.com/2021.3/Documentation/Manual/EditorCommandLineArguments.html
 @echo off
 
-::set Editor=D:\Unity\Editor\2022.2.21f1\Editor
-set Editor=C:\Program Files\Unity\Editor\2022.2.21f1\Editor
+set Editor=D:\Unity\Editor\2022.3.2f1\Editor
+::set Editor=C:\Program Files\Unity\Editor\2022.2.21f1\Editor
 set ProjectPath=..\
 set BuildTarget=Win64
 ::Win64,Android,iOS

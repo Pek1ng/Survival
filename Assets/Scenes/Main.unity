@@ -309,7 +309,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 394508640}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 839008025}
+        m_TargetAssemblyTypeName: Survival.UI.MainInterface, Survival.UI
+        m_MethodName: StartServer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &394508640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -567,7 +579,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 569788348}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 839008025}
+        m_TargetAssemblyTypeName: Survival.UI.MainInterface, Survival.UI
+        m_MethodName: StartClient
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &569788348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -962,7 +986,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 798215179}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 839008025}
+        m_TargetAssemblyTypeName: Survival.UI.MainInterface, Survival.UI
+        m_MethodName: StartHost
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &798215179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1095,6 +1131,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1caa7794e4cea34e9e75fd39258fc56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IPInputField: {fileID: 1987899459}
+  PortInputField: {fileID: 1146187769}
 --- !u!1 &949584812
 GameObject:
   m_ObjectHideFlags: 0

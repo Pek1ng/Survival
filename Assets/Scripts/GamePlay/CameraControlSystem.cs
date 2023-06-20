@@ -1,32 +1,57 @@
 using Unity.Burst;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.NetCode;
+using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.Jobs;
+using UnityEngine.UIElements;
 
 namespace Survival.GamePlay
 {
+    [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation)]
     [BurstCompile]
-    partial struct CameraControlSystem : ISystem
+    public partial struct CameraControlSystem : ISystem, ISystemStartStop
     {
-        TransformAccessArray _camera;
+        private  TransformAccessArray _cameraTransforms;
+        private float3 _startPosition;
 
-        [BurstCompile]
-        public void OnCreate(ref SystemState state)
+
+        public void OnStartRunning(ref SystemState state)
         {
-            _camera=new TransformAccessArray(new[] { Camera.main.transform } );
+            _cameraTransforms = new TransformAccessArray(new[] { Camera.main.transform });
+            _startPosition = _cameraTransforms[0].position;
         }
 
-        [BurstCompile]
-        public void OnDestroy(ref SystemState state)
+        public void OnStopRunning(ref SystemState state)
         {
-            _camera.Dispose();
+            _cameraTransforms.Dispose();
         }
 
         [BurstCompile]
         public void OnUpdate(ref SystemState state)
         {
-            _camera[0].position = new float3(0, 0, 0);
+            float3 position = default;
+
+            foreach (var transform in SystemAPI.Query<LocalTransform>().WithAll<GhostOwnerIsLocal>())
+            {
+                position = transform.Position;
+            }
+
+            var handle = new UpdateTransformJob
+            {
+                Position = position + _startPosition
+            }.Schedule(_cameraTransforms, state.Dependency);
+        }
+
+        public struct UpdateTransformJob : IJobParallelForTransform
+        {
+            public float3 Position;
+
+            public void Execute(int index, TransformAccess transform)
+            {
+                transform.position = Position;
+            }
         }
     }
 }

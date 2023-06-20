@@ -1,6 +1,7 @@
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;
+using Unity.Transforms;
 using UnityEngine;
 
 namespace Survival.GamePlay
@@ -8,8 +9,8 @@ namespace Survival.GamePlay
     [GhostComponent(PrefabType = GhostPrefabType.AllPredicted)]
     public struct InputData : IInputComponentData
     {
-        public int Horizontal;
-        public int Vertical;
+        public float Horizontal;
+        public float Vertical;
     }
 
     [UpdateInGroup(typeof(GhostInputSystemGroup))]
@@ -18,30 +19,15 @@ namespace Survival.GamePlay
     {
         public void OnUpdate(ref SystemState state)
         {
-            bool left = Input.GetKey("left");
-            bool right = Input.GetKey("right");
-            bool down = Input.GetKey("down");
-            bool up = Input.GetKey("up");
+            float h = Input.GetAxis("Horizontal");
+            float v = Input.GetAxis("Vertical");
 
             foreach (var playerInput in SystemAPI.Query<RefRW<InputData>>().WithAll<GhostOwnerIsLocal>())
             {
                 playerInput.ValueRW = default;
-                if (left)
-                {
-                    playerInput.ValueRW.Horizontal -= 1;
-                }
-                if (right)
-                {
-                    playerInput.ValueRW.Horizontal += 1;
-                }
-                if (down)
-                {
-                    playerInput.ValueRW.Vertical -= 1;
-                }
-                if (up)
-                {
-                    playerInput.ValueRW.Vertical += 1;
-                }
+
+                playerInput.ValueRW.Horizontal = h;
+                playerInput.ValueRW.Vertical = v;
             }
         }
     }
@@ -52,30 +38,14 @@ namespace Survival.GamePlay
     {
         public void OnUpdate(ref SystemState state)
         {
-            bool left = Input.GetKey("left");
-            bool right = Input.GetKey("right");
-            bool down = Input.GetKey("down");
-            bool up = Input.GetKey("up");
-
-            foreach (var playerInput in SystemAPI.Query<RefRW<InputData>>().WithAll<GhostOwnerIsLocal>())
+            foreach (var (playerInput, transform) in SystemAPI.Query<RefRW<InputData>, LocalToWorld>().WithAll<GhostOwnerIsLocal>())
             {
                 playerInput.ValueRW = default;
-                if (left)
-                {
-                    playerInput.ValueRW.Horizontal -= 1;
-                }
-                if (right)
-                {
-                    playerInput.ValueRW.Horizontal += 1;
-                }
-                if (down)
-                {
-                    playerInput.ValueRW.Vertical -= 1;
-                }
-                if (up)
-                {
-                    playerInput.ValueRW.Vertical += 1;
-                }
+
+                playerInput.ValueRW.Horizontal = noise.cnoise(transform.Position.xz);
+                playerInput.ValueRW.Vertical = noise.cnoise(transform.Position.xz);
+
+                Debug.Log(playerInput.ValueRW);
             }
         }
     }

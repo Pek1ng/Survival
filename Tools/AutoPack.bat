@@ -16,7 +16,7 @@ SET PackPath=%ProjectPath%\..\%current%_Build
 if not exist %PackPath% md %PackPath%
 
 if exist %PackPath%\.git (
-git clean -f
+git reset --hard
 git -C %PackPath% pull 
 ) else (
     if exist %PackPath% (

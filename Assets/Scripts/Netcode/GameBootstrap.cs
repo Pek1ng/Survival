@@ -1,4 +1,5 @@
 using Unity.NetCode;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace Survival.Netcode
@@ -18,6 +19,7 @@ namespace Survival.Netcode
             var sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
             bool isWorld = sceneName == "World";
 
+            //在编辑器下自动创建世界，否则创建默认的世界    
             if (!isWorld)
             {
                 CreateLocalWorld(defaultWorldName);
@@ -28,7 +30,7 @@ namespace Survival.Netcode
                 CreateDefaultClientServerWorlds();
             }
 
-            return true; 
+            return true;
         }
     }
 }

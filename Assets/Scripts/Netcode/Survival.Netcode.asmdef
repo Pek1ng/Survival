@@ -1,6 +1,6 @@
 {
-    "name": "Survival.Netcode",
-    "rootNamespace": "Survival.Netcode",
+    "name": "Survival.NetCode",
+    "rootNamespace": "Survival.NetCode",
     "references": [
         "GUID:ba98afc3935037247be0f3404c250a4f",
         "GUID:2665a8d13d1b3f18800f46e256720795",

@@ -1,5 +1,6 @@
 using System;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.NetCode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -19,9 +20,11 @@ namespace Survival.GamePlay
     {
         private UserControls _inputActions;
 
+        private float2 _move = default;
+
         protected override void OnCreate()
         {
-            _inputActions = new UserControls();
+            _inputActions = new();
             _inputActions.Player.Move.performed += MoveInput;
 
             _inputActions.Enable();
@@ -29,26 +32,21 @@ namespace Survival.GamePlay
 
         protected override void OnDestroy()
         {
-            _inputActions.Dispose();
+            _inputActions.Disable();
         }
 
         protected override void OnUpdate()
         {
-            //float h = Input.GetAxis("Horizontal");
-            //float v = Input.GetAxis("Vertical");
-
-            //foreach (var playerInput in SystemAPI.Query<RefRW<InputData>>().WithAll<GhostOwnerIsLocal>())
-            //{
-            //    playerInput.ValueRW = default;
-
-            //    playerInput.ValueRW.Horizontal = h;
-            //    playerInput.ValueRW.Vertical = v;
-            //}
+            foreach (var playerInput in SystemAPI.Query<RefRW<InputData>>().WithAll<GhostOwnerIsLocal>())
+            {
+                playerInput.ValueRW.Horizontal = _move.x;
+                playerInput.ValueRW.Vertical = _move.y;
+            }
         }
 
         private void MoveInput(InputAction.CallbackContext context)
         {
-            
+            _move = context.ReadValue<Vector2>();
         }
     }
 
@@ -60,7 +58,7 @@ namespace Survival.GamePlay
     //    {
     //        foreach (var (playerInput, transform) in SystemAPI.Query<RefRW<InputData>, LocalToWorld>().WithAll<GhostOwnerIsLocal>())
     //        {
-                
+
     //        }
     //    }
     //}

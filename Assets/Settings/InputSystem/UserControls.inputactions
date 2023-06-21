@@ -10,7 +10,7 @@
                     "type": "PassThrough",
                     "id": "d73d4055-e118-49ae-bcb0-87ed1c8933a8",
                     "expectedControlType": "Vector2",
-                    "processors": "NormalizeVector2",
+                    "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 }
@@ -41,7 +41,7 @@
                 {
                     "name": "down",
                     "id": "8f0401e8-062d-4bfd-b785-72563a5378b5",
-                    "path": "<Keyboard>/x",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "PC",

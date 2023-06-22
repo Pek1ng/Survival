@@ -19,7 +19,8 @@ namespace Survival.GamePlay
                 var moveInput = math.normalizesafe(input.ValueRO.Move) * speed;
                 trans.ValueRW.Position += new float3(moveInput.x, 0, moveInput.y);
 
-                trans.ValueRW.Rotation = TransformHelpers.LookAtRotation(trans.ValueRW.Position, trans.ValueRW.Position + new float3(input.ValueRO.Look.x, 0, input.ValueRO.Look.y), math.up());
+                float3 target = trans.ValueRW.Position + new float3(input.ValueRO.Look.x, 0, input.ValueRO.Look.y);
+                trans.ValueRW.Rotation = TransformHelpers.LookAtRotation(trans.ValueRW.Position, target, math.up());
             }
         }
     }

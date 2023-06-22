@@ -39,6 +39,9 @@ if exist %ClonePath%\.git (
     <nul set /p=Git Reset...
     git reset --hard >nul
     echo Done.
+    git config core.sparsecheckout true
+    echo "!/Tools" >> .git/info/sparse-checkout
+    echo "!/Docs" >> .git/info/sparse-checkout
     <nul set /p=Git Pull...
     git -C %ClonePath% pull >nul
     echo Done.

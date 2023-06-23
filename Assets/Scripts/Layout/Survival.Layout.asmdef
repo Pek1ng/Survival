@@ -2,6 +2,7 @@
     "name": "Survival.UI",
     "rootNamespace": "Survival.UI",
     "references": [
+        "GUID:c80c12a0c4c96424fbc7c8cf094cebf4",
         "GUID:e0cd26848372d4e5c891c569017e11f1",
         "GUID:734d92eba21c94caba915361bd5ac177",
         "GUID:953adc2a6b8b4e3c8df5b728bcd546e9",

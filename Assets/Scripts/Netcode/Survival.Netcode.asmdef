@@ -3,6 +3,7 @@
     "rootNamespace": "Survival.NetCode",
     "references": [
         "GUID:ba98afc3935037247be0f3404c250a4f",
+        "GUID:c80c12a0c4c96424fbc7c8cf094cebf4",
         "GUID:2665a8d13d1b3f18800f46e256720795",
         "GUID:e0cd26848372d4e5c891c569017e11f1",
         "GUID:734d92eba21c94caba915361bd5ac177",

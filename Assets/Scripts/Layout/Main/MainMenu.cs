@@ -34,7 +34,7 @@ namespace Survival.UI
             {
                 World.DefaultGameObjectInjectionWorld = server;
             }
-                
+
             var port = Convert.ToUInt16(PortInputField.text);
             NetworkEndpoint ep = NetworkEndpoint.AnyIpv4.WithPort(port);
             {
@@ -88,7 +88,7 @@ namespace Survival.UI
             if (World.DefaultGameObjectInjectionWorld == null)
             {
                 World.DefaultGameObjectInjectionWorld = client;
-            }          
+            }
 
             var ip = IPInputField.text;
             var port = Convert.ToUInt16(PortInputField.text);
@@ -124,8 +124,8 @@ namespace Survival.UI
         {
             if (ClientServerBootstrap.RequestedPlayType != playType)
             {
-                Debug.LogError($"以{playType}模式运行失败，需要的运行模式为{ClientServerBootstrap.RequestedPlayType}");
-                return false;
+                string msg = $"RequestedPlayType为{ClientServerBootstrap.RequestedPlayType},而当前playType为{playType}";
+                msg.Warning();
             }
 
             return true;

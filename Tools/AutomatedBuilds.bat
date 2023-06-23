@@ -20,7 +20,7 @@ if not defined Editor (
     for /f "skip=2 tokens=3*" %%a in ('reg query "!lastkey!" /v "Location x64"') do set Editor=%%b
 )
 
-echo AutomatedBuild Start...
+echo AutomatedBuild Start ...
 echo EditorPath: "%Editor%"
 echo BuildTarget: "%BuildTarget%"
 
@@ -31,27 +31,29 @@ if not exist %ClonePath% (
     echo CreateFolder:%ClonePath%
     md %ClonePath% >nul
 )
-cd /d %ClonePath%
-set ClonePath=%cd%
 
 REM 如果存在git文件夹就重置(防止上次打包修改某些文件)然后拉取
 if exist %ClonePath%\.git (
-    <nul set /p=Git Reset...
+    echo Git Reset ...
+    cd /d %ClonePath% 
     git reset --hard >nul
-    echo Done.
-    <nul set /p=Git Pull...
+    echo done.
+    echo Git Pull ...
     git -C %ClonePath% pull >nul
-    echo Done.
+    echo done.
 ) else (
     REM 如果不存在就克隆项目,考虑已经复制项目但是没有git文件夹的情况
     if exist %ClonePath% (
         rd /s /Q %ClonePath%
     )
-    <nul set /p=Git Clone...
     git clone %ProjectPath% %ClonePath% >nul
-    echo Done.
+    cd /d %ClonePath%
 )
 
+::防止套娃
+rd /s /Q %ClonePath%\Tools
+
+set ClonePath=%cd%
 REM 启动Unity命令行打包
 cd /d %Editor%\Editor
 echo on

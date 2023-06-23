@@ -1,9 +1,22 @@
-using UnityEngine;
+using System.Diagnostics;
 
 public static class DebugExtensions
 {
-    public static void Dump(this object obj)
+    [Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD")]
+    public static void Log(this object message, UnityEngine.Object context = null)
     {
-        Debug.Log(obj);
+        UnityEngine.Debug.Log(message, context);
+    }
+
+    [Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD")]
+    public static void Error(this object message, UnityEngine.Object context = null)
+    {
+        UnityEngine.Debug.LogError(message, context);
+    }
+
+    [Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD")]
+    public static void Warning(this object message, UnityEngine.Object context = null)
+    {
+        UnityEngine.Debug.LogWarning(message, context);
     }
 }

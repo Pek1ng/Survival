@@ -69,7 +69,8 @@ namespace Survival.Netcode
                 commandBuffer.AddComponent<NetworkStreamInGame>(reqSrc.ValueRO.SourceConnection);
                 var networkId = networkIdFromEntity[reqSrc.ValueRO.SourceConnection];
 
-                Debug.Log($"'{worldName}' setting connection '{networkId.Value}' to in game, spawning a Ghost '{prefabName}' for them!");
+                string message = $"'{worldName}' setting connection '{networkId.Value}' to in game, spawning a Ghost '{prefabName}' for them!";
+                message.Log();
 
                 var player = commandBuffer.Instantiate(prefab);
                 commandBuffer.SetComponent(player, new GhostOwner { NetworkId = networkId.Value });

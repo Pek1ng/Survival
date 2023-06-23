@@ -74,6 +74,10 @@ crashlytics-build.properties
 
 # DOTS
 /[Aa]ssets/SceneDependencyCache/
+/[Aa]ssets/SceneDependencyCache.meta
 
 #Tools
-/Output/
+/[Oo]utput/
+
+#Game
+/[Ss]etting/

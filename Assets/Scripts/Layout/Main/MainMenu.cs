@@ -17,6 +17,11 @@ namespace Survival.UI
 
         public static string DefaultWorldName;
 
+        private void Start()
+        {
+            GameSetting.Path.Log();
+        }
+
         public void StartHost()
         {
             if (!IsValidPlayType(PlayType.ClientAndServer))

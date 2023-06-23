@@ -4,6 +4,9 @@ using UnityEngine;
 
 internal static class ProjectBuilder
 {
+    /// <summary>
+    /// 项目构建，用Unity Editor命令行参数调用
+    /// </summary>
     [MenuItem("Tools/Build")]
     public static void Build()
     {
@@ -11,6 +14,7 @@ internal static class ProjectBuilder
 
         options.target = EditorUserBuildSettings.activeBuildTarget;
 
+        //修改生成文件的后缀名
         string suffix = string.Empty;
         switch (options.target)
         {

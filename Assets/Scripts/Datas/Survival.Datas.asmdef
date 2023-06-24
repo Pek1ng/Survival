@@ -1,6 +1,6 @@
 {
     "name": "Survival.Datas",
-    "rootNamespace": "",
+    "rootNamespace": "Survival.Datas",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

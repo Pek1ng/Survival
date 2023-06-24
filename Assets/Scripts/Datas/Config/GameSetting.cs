@@ -1,6 +1,6 @@
+using Survival.Datas;
 using System;
 using System.IO;
-using UnityEngine;
 
 /// <summary>
 /// ”Œœ∑…Ë÷√
@@ -21,5 +21,7 @@ public sealed class GameSetting
        Application.dataPath + "/Setting";
 #endif
 #endif
+
+    public Sound Sound { get; set; }
 }
 

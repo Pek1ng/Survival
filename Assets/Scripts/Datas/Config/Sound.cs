@@ -1,4 +1,5 @@
 using System;
+using Unity.Mathematics;
 
 namespace Survival.Datas
 {
@@ -6,9 +7,9 @@ namespace Survival.Datas
     /// 声音设置项
     /// </summary>
     [Serializable]
-    public class Sound
+    public class Sound : IJsonFile
     {
-        private int _music = 100;
+        private int _music;
 
         /// <summary>
         /// 音量大小
@@ -21,11 +22,11 @@ namespace Survival.Datas
             }
             set
             {
-                _music = Math.Clamp(value, 0, 100);
+                _music = math.clamp(value, 0, 100);
             }
         }
 
-        private int _effets = 100;
+        private int _effets;
 
         /// <summary>
         /// 音效大小
@@ -38,7 +39,7 @@ namespace Survival.Datas
             }
             set
             {
-                _music = Math.Clamp(value, 0, 100);
+                _music = math.clamp(value, 0, 100);
             }
         }
     }

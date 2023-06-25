@@ -16,12 +16,21 @@ public sealed class GameSetting
        Application.persistentDataPath + "/Setting";
 #else
 #if UNITY_EDITOR
-       Directory.GetCurrentDirectory() + "\\Setting";
+       Directory.GetCurrentDirectory() + "/Setting";
 #else
        Application.dataPath + "/Setting";
 #endif
 #endif
 
     public Sound Sound { get; set; }
+
+    public void Save()
+    {
+
+    }
+
+    public void Load()
+    {
+    }
 }
 

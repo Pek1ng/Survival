@@ -69,8 +69,9 @@ namespace Survival.Netcode
                 commandBuffer.AddComponent<NetworkStreamInGame>(reqSrc.ValueRO.SourceConnection);
                 var networkId = networkIdFromEntity[reqSrc.ValueRO.SourceConnection];
 
-                string message = $"'{networkId.Value}'连接到游戏";
-                message.Log();
+#if UNITY_EDITOR || DEVELOPMENT_BUILD  
+                Debug.Log($"{networkId.Value}进入游戏");
+#endif
 
                 var player = commandBuffer.Instantiate(prefab);
                 commandBuffer.SetComponent(player, new GhostOwner { NetworkId = networkId.Value });

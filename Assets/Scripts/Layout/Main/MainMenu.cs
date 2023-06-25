@@ -19,7 +19,7 @@ namespace Survival.UI
 
         private void Start()
         {
-            GameSetting.Path.Log();
+            
         }
 
         public void StartHost()
@@ -130,7 +130,7 @@ namespace Survival.UI
             if (ClientServerBootstrap.RequestedPlayType != playType)
             {
                 string msg = $"RequestedPlayType为{ClientServerBootstrap.RequestedPlayType},而当前playType为{playType}";
-                msg.Warning();
+               // msg.Warning();
             }
 
             return true;

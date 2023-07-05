@@ -6,7 +6,7 @@ using System.IO;
 /// 游戏设置
 /// </summary>
 [Serializable]
-public sealed class GameSetting
+public class GameSetting
 {
     /// <summary>
     /// 设置存放的目录

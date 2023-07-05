@@ -9,7 +9,7 @@ namespace Survival.Datas
     [Serializable]
     public class Sound : IJsonFile
     {
-        private int _music;
+        private int _music = 100;
 
         /// <summary>
         /// 音量大小
@@ -26,7 +26,7 @@ namespace Survival.Datas
             }
         }
 
-        private int _effets;
+        private int _effets = 100;
 
         /// <summary>
         /// 音效大小

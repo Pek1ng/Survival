@@ -14,12 +14,16 @@ namespace Survival.UI
         [RuntimeInitializeOnLoadMethod]
         private static void OnRuntimeMethodLoad()
         {
-            var go = new GameObject();
-            go.name = typeof(UIManager).Name;
+            var go = new GameObject
+            {
+                name = typeof(UIManager).Name
+            };
 
-           _instance= go.AddComponent<UIManager>();
+            _instance = go.AddComponent<UIManager>();
 
             DontDestroyOnLoad(go);
+
+           Debug.Log(UISourceGenerated.UISourceGenerated.GetTestText());
         }
     }
 }

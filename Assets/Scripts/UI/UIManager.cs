@@ -1,9 +1,13 @@
+using System;
+using System.Runtime.Serialization.Json;
 using UnityEngine;
 
 namespace Survival.UI
 {
     public class UIManager : MonoBehaviour
     {
+
+
         private static UIManager _instance;
 
         private UIManager() { }
@@ -21,9 +25,7 @@ namespace Survival.UI
 
             _instance = go.AddComponent<UIManager>();
 
-            DontDestroyOnLoad(go);
-
-           Debug.Log(UISourceGenerated.UISourceGenerated.GetTestText());
+            DontDestroyOnLoad(go); 
         }
     }
 }

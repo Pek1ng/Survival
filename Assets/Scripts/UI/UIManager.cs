@@ -1,5 +1,3 @@
-using System;
-using System.Runtime.Serialization.Json;
 using UnityEngine;
 
 namespace Survival.UI
@@ -25,7 +23,9 @@ namespace Survival.UI
 
             _instance = go.AddComponent<UIManager>();
 
-            DontDestroyOnLoad(go); 
+            DontDestroyOnLoad(go);
+             
+            Debug.Log(SourceGenerated.GetTestText());
         }
     }
 }

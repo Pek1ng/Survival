@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -5,19 +6,26 @@ using System.Text;
 /// <summary>
 /// INIπ§æﬂ¿‡
 /// </summary>
-public static class INIUtility
+public static class ConfigUtility
 {
-    public static string Path = Directory.GetCurrentDirectory()+ @"\ProjectSettings\UI.ini";
+    public static string ConfigFolder = Path.Combine(Environment.GetFolderPath(
+   Environment.SpecialFolder.ApplicationData), "UIGenerator");
+
+    public static string ConfigPath = Path.Combine(ConfigFolder, "UI.ini");
+
+    public static string LogPath = Path.Combine(ConfigFolder, "Logs.txt");
+
+    public static string GenPath = Path.Combine(ConfigFolder, "Gen");
 
     public static void Write(string section, string key, string value)
     {
-        WritePrivateProfileString(section,key,value,Path);
+        WritePrivateProfileString(section, key, value, ConfigPath);
     }
 
     public static string Get(string section, string key)
     {
-        StringBuilder result= new StringBuilder();
-        GetPrivateProfileString(section, key, "", result, 250, Path);
+        StringBuilder result = new StringBuilder();
+        GetPrivateProfileString(section, key, "", result, 250, ConfigPath);
 
         return result.ToString();
     }

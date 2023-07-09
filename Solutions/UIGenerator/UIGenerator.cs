@@ -14,55 +14,71 @@ public class UIGenerator : ISourceGenerator
 
     public void Execute(GeneratorExecutionContext context)
     {
-        var classDeclarations = GetUIClassDeclarationSyntaxList(context);
-        foreach (var item in classDeclarations)
+        StringBuilder logBuilder = new StringBuilder();
+
+        if (!Directory.Exists(ConfigUtility.GenPath))
         {
-            var @namespace = item.GetNamespace();
-            StringBuilder classStringBuilder = new StringBuilder();
-
-            //引用
-            classStringBuilder.AppendLine("using UnityEngine;");
-
-            //命名空间
-            if (!string.IsNullOrEmpty(@namespace))
-            {
-                classStringBuilder.AppendLine($"namespace {@namespace} {{");
-            }
-
-            //类
-            classStringBuilder.AppendLine($"public partial class {item.Identifier.ValueText} {{");
-
-            int index = 0;
-            string fullName = item.GetFullName();
-            string value = INIUtility.Get(fullName, index.ToString());
-            File.WriteAllText($@"D:\log.txt", $@"FullName:{fullName}
-Value:{value}
-Index:{index.ToString()}
-Path:{INIUtility.Path}
-");
-
-            while (!string.IsNullOrEmpty(value))
-            {
-                classStringBuilder.AppendLine($"[HideInInspector]");
-                classStringBuilder.AppendLine($"public GameObject {value};");
-                index++;
-                value = INIUtility.Get(fullName, index.ToString());
-            }
-
-            classStringBuilder.AppendLine("}");       
-
-            //命名空间尾部括号
-            if (!string.IsNullOrEmpty(@namespace))
-            {
-                classStringBuilder.AppendLine("}");
-            }
-
-            File.WriteAllText($@"D:\{item.Identifier.ValueText}.gen.txt", classStringBuilder.ToString());
-
-            SourceText sourceText = SourceText.From(classStringBuilder.ToString(), Encoding.UTF8);
-
-            context.AddSource($"{item.Identifier.ValueText}.gen.cs", sourceText);
+            Directory.CreateDirectory(ConfigUtility.GenPath);
         }
+
+        logBuilder.AppendLine($@"[ConfigPath]{ConfigUtility.ConfigPath}");
+
+        try
+        {
+            var classDeclarations = GetUIClassDeclarationSyntaxList(context);
+
+            logBuilder.AppendLine($"[Count]{classDeclarations.Count}");
+
+            foreach (var item in classDeclarations)
+            {
+                var @namespace = item.GetNamespace();
+                StringBuilder classStringBuilder = new StringBuilder();
+
+                //引用
+                classStringBuilder.AppendLine("using UnityEngine;");
+
+                //命名空间
+                if (!string.IsNullOrEmpty(@namespace))
+                {
+                    classStringBuilder.AppendLine($"namespace {@namespace} {{");
+                }
+
+                //类
+                classStringBuilder.AppendLine($"public partial class {item.Identifier.ValueText} {{");
+
+                int index = 0;
+                string fullName = item.GetFullName();
+                string value = ConfigUtility.Get(fullName, index.ToString());
+
+                while (!string.IsNullOrEmpty(value))
+                {
+                    classStringBuilder.AppendLine($"[HideInInspector]");
+                    classStringBuilder.AppendLine($"public GameObject {value};");
+                    index++;
+                    value = ConfigUtility.Get(fullName, index.ToString());
+                }
+
+                classStringBuilder.AppendLine("}");
+
+                //命名空间尾部括号
+                if (!string.IsNullOrEmpty(@namespace))
+                {
+                    classStringBuilder.AppendLine("}");
+                }
+
+                string code = classStringBuilder.ToString();
+                File.WriteAllText(Path.Combine(ConfigUtility.GenPath, $"{item.Identifier.ValueText}.gen.txt"), code);
+                SourceText sourceText = SourceText.From(code, Encoding.UTF8);
+
+                context.AddSource($"{item.Identifier.ValueText}.gen.cs", sourceText);
+            }
+        }
+        catch (System.Exception e)
+        {
+            logBuilder.AppendLine($"[Error]{e}");
+        }
+
+        File.WriteAllText(ConfigUtility.LogPath, logBuilder.ToString());
     }
 
     public void Initialize(GeneratorInitializationContext context) { }

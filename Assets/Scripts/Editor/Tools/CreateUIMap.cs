@@ -1,24 +1,29 @@
 ﻿using Survival.UI;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Xml;
-using System.Xml.Serialization;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 internal class CreateUIMap
 {
     public static string Flag = "Binding_";
 
-    [MenuItem("Tools/UIGenerator")]
+    [MenuItem("Tools/UIGenerator/GenerateMapping")]
     public static void Create()
     {
-        if (File.Exists(INIUtility.Path))
+        var parent = Directory.GetParent(ConfigUtility.Path);
+        if (!parent.Exists)
         {
-            File.Delete(INIUtility.Path);
+            parent.Create();
+        }
+
+        if (File.Exists(ConfigUtility.Path))
+        {
+            File.Delete(ConfigUtility.Path);
         }
 
         Dictionary<string, List<string>> Fields = new Dictionary<string, List<string>>();
@@ -42,36 +47,19 @@ internal class CreateUIMap
             }
         }
 
-
-        
-       
-
-
-        var serializer = new DataContractSerializer(Fields.GetType());
-        using (var sw = new StringWriter())
+        foreach (var item in Fields)
         {
-            using (var writer = new XmlTextWriter(sw))
-            {
-                writer.Formatting = Formatting.Indented; // indent the Xml so it's human readable
-                serializer.WriteObject(writer, Fields);
-                writer.Flush();
-                Debug.Log(sw.ToString());
-            }
+            ConfigUtility.Write(item.Key, item.Value);
         }
 
+        AssetDatabase.Refresh();
+        Debug.Log($"生成成功,映射文件位置：{ConfigUtility.Path}");
+    }
 
-        //foreach (var item in Fields)
-        //{
-        //    int index = 0;
-
-        //    foreach (var fd in item.Value)
-        //    {
-        //        INIUtility.Write(item.Key, index.ToString(), fd);
-        //        index++;
-        //    }
-        //}
-
-        //Debug.Log(INIUtility.Path);
+    [MenuItem("Tools/UIGenerator/OpenFolder")]
+    public static void OpenFolder()
+    {
+        System.Diagnostics.Process.Start("explorer.exe", Directory.GetParent(ConfigUtility.Path).FullName);
     }
 
     public static void GetBinding(Transform parent, List<GameObject> list)

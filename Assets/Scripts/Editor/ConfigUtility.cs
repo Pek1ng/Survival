@@ -1,17 +1,29 @@
-using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using System;
 
 /// <summary>
 /// INIπ§æﬂ¿‡
 /// </summary>
-public static class INIUtility
+public static class ConfigUtility
 {
-    public static string Path = Environment.CurrentDirectory + @"\ProjectSettings\UI.ini";
+    public static string Path = System.IO.Path.Combine(Environment.GetFolderPath(
+   Environment.SpecialFolder.ApplicationData), "UIGenerator", "UI.ini");
 
     public static void Write(string section, string key, string value)
     {
         WritePrivateProfileString(section, key, value, Path);
+    }
+
+    public static void Write(string section, List<string> values)
+    {
+        Write(section, null, null);
+
+        for (int i = 0; i < values.Count; i++)
+        {
+            Write(section, i.ToString(), values[i]);
+        }
     }
 
     public static string Get(string section, string key)

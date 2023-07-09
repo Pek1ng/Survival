@@ -16,7 +16,7 @@ public class UIGenerator2 : ISourceGenerator
                 {
                     public static string GetTestText() 
                     {
-                        return ""This message from source generator:");
+                        return ""This message from source  generator:");
         sourceBuilder.Append(DateTime.Now);
 
         sourceBuilder.Append(

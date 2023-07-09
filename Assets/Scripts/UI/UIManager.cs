@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 
 namespace Survival.UI
@@ -24,8 +25,23 @@ namespace Survival.UI
             _instance = go.AddComponent<UIManager>();
 
             DontDestroyOnLoad(go);
-             
-            Debug.Log(SourceGenerated.GetTestText());
+ 
+            Debug.Log(Path.Combine(Directory.GetCurrentDirectory(), "ProjectSettings", "UIMap.ini"));
+        }
+
+        public static string FindProjectFolder(string path)
+        {
+            DirectoryInfo directory = new DirectoryInfo(path);
+            while (directory.Parent != null)
+            {
+                if (directory.Name == "Assets")
+                {
+                    return directory.Parent.FullName;
+                }
+                directory = directory.Parent;
+            }
+            return null;
         }
     }
+
 }

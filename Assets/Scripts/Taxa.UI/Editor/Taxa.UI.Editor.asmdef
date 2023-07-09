@@ -1,0 +1,19 @@
+{
+    "name": "Taxa.UI.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6f565cd295648d045a90deb54364f311",
+        "GUID:224824c0d9cc7914ab4c69c78785a936"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

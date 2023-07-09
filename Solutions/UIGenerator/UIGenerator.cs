@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,23 +17,32 @@ public class UIGenerator : ISourceGenerator
     {
         StringBuilder logBuilder = new StringBuilder();
 
-        if (!Directory.Exists(ConfigUtility.GenPath))
-        {
-            Directory.CreateDirectory(ConfigUtility.GenPath);
-        }
+        //if (Directory.Exists(ConfigUtility.GenPath))
+        //{
+        //    Directory.Delete(ConfigUtility.GenPath,true);
+        //}
 
-        logBuilder.AppendLine($@"[ConfigPath]{ConfigUtility.ConfigPath}");
+        //Directory.CreateDirectory(ConfigUtility.GenPath);
 
         try
         {
-            var classDeclarations = GetUIClassDeclarationSyntaxList(context);
+            List<ClassDeclarationSyntax> classDeclarations = GetUIClassDeclarationSyntaxList(context);
 
             logBuilder.AppendLine($"[Count]{classDeclarations.Count}");
 
             foreach (var item in classDeclarations)
             {
+                if (ConfigManager.ProjectPath == null)
+                {
+                    ConfigManager.ProjectPath = ConfigManager.FindProjectFolder(item.SyntaxTree.FilePath);
+                }
+
+                if (logBuilder.Length > 0) { }
+
                 var @namespace = item.GetNamespace();
                 StringBuilder classStringBuilder = new StringBuilder();
+
+                logBuilder.AppendLine($"[item.SyntaxTree.FilePat]{item.SyntaxTree.FilePath}");
 
                 //引用
                 classStringBuilder.AppendLine("using UnityEngine;");
@@ -48,14 +58,14 @@ public class UIGenerator : ISourceGenerator
 
                 int index = 0;
                 string fullName = item.GetFullName();
-                string value = ConfigUtility.Get(fullName, index.ToString());
+                string value = ConfigManager.Get(fullName, index.ToString());
 
                 while (!string.IsNullOrEmpty(value))
                 {
                     classStringBuilder.AppendLine($"[HideInInspector]");
                     classStringBuilder.AppendLine($"public GameObject {value};");
                     index++;
-                    value = ConfigUtility.Get(fullName, index.ToString());
+                    value = ConfigManager.Get(fullName, index.ToString());
                 }
 
                 classStringBuilder.AppendLine("}");
@@ -67,18 +77,21 @@ public class UIGenerator : ISourceGenerator
                 }
 
                 string code = classStringBuilder.ToString();
-                File.WriteAllText(Path.Combine(ConfigUtility.GenPath, $"{item.Identifier.ValueText}.gen.txt"), code);
+                //File.WriteAllText(Path.Combine(ConfigUtility.GenPath, $"{item.Identifier.ValueText}.gen.txt"), code);
                 SourceText sourceText = SourceText.From(code, Encoding.UTF8);
 
                 context.AddSource($"{item.Identifier.ValueText}.gen.cs", sourceText);
             }
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
             logBuilder.AppendLine($"[Error]{e}");
         }
 
-        File.WriteAllText(ConfigUtility.LogPath, logBuilder.ToString());
+        logBuilder.AppendLine($"[ProjectPath]{ConfigManager.ProjectPath}");
+        logBuilder.AppendLine($"[LogPath]{ConfigManager.Instance.LogPath}");
+        logBuilder.AppendLine($"[ConfigPath]{ConfigManager.Instance.ConfigPath}");
+        File.WriteAllText(ConfigManager.Instance.LogPath, logBuilder.ToString());
     }
 
     public void Initialize(GeneratorInitializationContext context) { }
@@ -93,9 +106,14 @@ public class UIGenerator : ISourceGenerator
 
         foreach (var cds in allClassDeclarations)
         {
-            var have = cds.BaseList.Types.Any(attr => attr.ToString() == FLAG_NAME);
+            var have = cds?.BaseList?.Types.Any(attr => attr.ToString() == FLAG_NAME);
 
-            if (have)
+            if (have==null)
+            {
+                continue;
+            }
+
+            if ((bool)have)
             {
                 classDeclarations.Add(cds);
             }

@@ -1,10 +1,14 @@
+using UnityEngine;
+
 namespace Survival.UI
 {
     public partial class MainView : View
     {
+        public GameObject DA;
+
         private void Awake()
         {
-            this.Name_3 = null;
+           // Debug.Log(this.Name_1.name);
         }
     }
 }

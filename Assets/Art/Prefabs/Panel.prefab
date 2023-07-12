@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6577481755403778013}
   - component: {fileID: 5026657113459511266}
   m_Layer: 5
-  m_Name: RD_Name_12
+  m_Name: RD_Name_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -174,8 +174,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DA: {fileID: 0}
   Name: {fileID: 5767083028205913133}
-  Name_12: {fileID: 2582342419687843644}
-  Name1111: {fileID: 0}
+  Name_1: {fileID: 2582342419687843644}
+  Nama12: {fileID: 4571213432150855794}
 --- !u!1 &4571213432150855794
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 5650793544606807157}
   - component: {fileID: 203657808999866150}
   m_Layer: 5
-  m_Name: RD_Name1111
+  m_Name: RD_Nama12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

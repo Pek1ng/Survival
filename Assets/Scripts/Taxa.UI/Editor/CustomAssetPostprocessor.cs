@@ -1,34 +1,53 @@
-using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
-public class CustomAssetPostprocessor : AssetPostprocessor
+//public class PostProcessImportAsset : AssetPostprocessor
+//{
+//    static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
+//    {
+//        Debug.Log(importedAssets.FirstOrDefault());
+//    }
+//}
+
+public class PostProcessImportAsset : AssetPostprocessor
 {
-    void OnPostprocessPrefab(GameObject g)
+    static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
     {
-        //if (g.TryGetComponent(out View view))
-        //{
-        //    List<GameObject> list = new List<GameObject>();
-
-        //    Get(view.transform, list);
-
-        //    foreach (var item in list)
-        //    {
-        //        Debug.Log(item.name);
-        //    }
-        //}
-    }
-
-    public static void Get(Transform parent, List<GameObject> list)
-    {
-        for (int i = 0; i < parent.childCount; i++)
+        foreach (var path in importedAssets)
         {
-            var child = parent.GetChild(i);
-            if (child.name.StartsWith("Binding_"))
+            if (!path.EndsWith(".prefab"))
             {
-                list.Add(child.gameObject);
+                return;
             }
-            Get(child, list);
+
+            var go = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+
+            if (go == null)
+            {
+                return;
+            }
+
+            View view = go.GetComponent<View>();
+
+            if (view == null)
+            {
+                return;
+            }
+
+            var @params = view.transform.GetBindingList();
+
+            foreach (var item in @params)
+            {
+                var field = view.GetType().GetField(item.Key);
+                if (field!=null)
+                {
+                    field.SetValue(view, item.Value);
+                }
+            }
+
+            EditorUtility.SetDirty(view);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Survival.UI
 
         private void Awake()
         {
-           // Debug.Log(this.Name_1.name);
+            Debug.Log(this.Nama12.name);
         }
     }
 }

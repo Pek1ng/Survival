@@ -34,7 +34,6 @@ public class ViewEditor : Editor
 
             if (GUILayout.Button("生成脚本"))
             {
-
                 var @params = view.transform.GetBindingList();
                 @params.WriteMap(view.GetType().FullName);
 
@@ -42,25 +41,6 @@ public class ViewEditor : Editor
                 var path = AssetDatabase.GetAssetPath(script);
                 AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
                 Unity.CodeEditor.CodeEditor.CurrentEditor.SyncAll();
-                EditorApplication.delayCall += () =>
-                {
-                    serializedObject.Update();
-                    view = (View)serializedObject.targetObject;
-
-                    foreach (var item in @params)
-                    {
-                        try
-                        {
-                            var field = view.GetType().GetField(item.Key);
-                            field.SetValue(view, item.Value);
-                        }
-                        catch
-                        {
-                            Debug.Log($"{item.Key}赋值失败");
-                        }
-                    }
-                    EditorUtility.SetDirty(view.gameObject);
-                };
             }
         }
     }

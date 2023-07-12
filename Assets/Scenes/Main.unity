@@ -472,11 +472,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Panel
       objectReference: {fileID: 0}
-    - target: {fileID: 4571213432150855794, guid: 745c318e995ada146be98eca4f24b2f3,
-        type: 3}
-      propertyPath: m_Name
-      value: RD_Name_22
-      objectReference: {fileID: 0}
     - target: {fileID: 5714990882165210171, guid: 745c318e995ada146be98eca4f24b2f3,
         type: 3}
       propertyPath: m_Pivot.x

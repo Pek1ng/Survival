@@ -68,8 +68,6 @@ Unity.exe ^
 @echo off
 
 REM 打包完成后打开文件夹
-explorer %ClonePath%\Output
+::explorer %ClonePath%\Output
 
 echo Success.
-
-pause
